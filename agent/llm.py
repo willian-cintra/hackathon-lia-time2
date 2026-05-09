@@ -1,7 +1,6 @@
 import os
 from langchain_openai import ChatOpenAI
 
-
 def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
     llm = ChatOpenAI(
         base_url="https://openrouter.ai/api/v1",
@@ -14,4 +13,5 @@ def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> 
         {"role": "system", "content": system_prompt},
         {"role": "user",   "content": user_prompt},
     ]
+    
     return llm.invoke(messages).content

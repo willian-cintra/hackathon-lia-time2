@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from agent.state import TicketState
-from agent.llm import invoke
+from agent.llm import call_llm
 
 PROMPT = Path("prompts/draft_response.md").read_text(encoding="utf-8")
 
@@ -16,7 +16,7 @@ def run(state: TicketState) -> dict:
     )
 
     try:
-        data = json.loads(invoke(system, user, temperature=0.3))
+        data = json.loads(call_llm(system, user, temperature=0.3))
     except Exception as e:
         raise RuntimeError(f"draft_response falhou em {state['ticket_id']}: {e}")
 

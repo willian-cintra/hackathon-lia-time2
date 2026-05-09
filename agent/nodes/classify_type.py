@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from agent.state import TicketState
-from agent.llm import invoke
+from agent.llm import call_llm
 
 PROMPT = Path("prompts/classify_type.md").read_text(encoding="utf-8")
 
@@ -14,7 +14,7 @@ def run(state: TicketState) -> dict:
     )
 
     try:
-        data = json.loads(invoke(system, user, temperature=0.0))
+        data = json.loads(call_llm(system, user, temperature=0.0))
     except Exception as e:
         raise RuntimeError(f"classify_type falhou em {state['ticket_id']}: {e}")
 

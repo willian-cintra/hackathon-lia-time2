@@ -1,11 +1,3 @@
-"""
-scripts/run_stub.py
-
-Executa o grafo com 3 chamados manuais para validar o fluxo
-completo de ponta a ponta.
-
-Execute: python scripts/run_stub.py
-"""
 from dotenv import load_dotenv
 from agent.graph import graph
 
