@@ -17,52 +17,21 @@ class TicketState(TypedDict):
     requester_profile:  RequesterProfile
     timestamp:          str
 
-    # ── Priorização ────────────────────────────────────────────────────────────
+    # ── Priorização — BPMN §1 ─────────────────────────────────────────────────
     urgency:                 Urgency
     impact:                  Impact
     priority:                Priority
-    priority_justification:  str        # obrigatório — auditoria
+    priority_justification:  str
 
-    # ── Escalonamento ──────────────────────────────────────────────────────────
+    # ── Escalonamento — BPMN §2 ───────────────────────────────────────────────
     category:                      Category
     service_type:                  str
     queue:                         str
-    internal_note:                 str
-    classification_justification:  str  # obrigatório — auditoria
+    classification_justification:  str
 
-    # ── Resposta — atendimento 1° nível ─────────────────────────────────────────
+    # ── Resposta — atendimento 1° nível ───────────────────────────────────────
     draft_response:  str
     draft_closure:   str
 
-    # ── Controle de fluxo ────────────────────────────────────────────────────────
-    route_decision:      str
-    needs_human_review:  bool
-    errors:              list[str]
-
-
-def empty_state(ticket_id: str, text: str, channel: Channel,
-                requester_profile: RequesterProfile, timestamp: str) -> TicketState:
-    """Cria um estado inicial com todos os campos de saída vazios.
-    Usado pelo nó ingest para garantir que nenhum campo fique undefined.
-    """
-    return TicketState(
-        ticket_id=ticket_id,
-        text=text,
-        channel=channel,
-        requester_profile=requester_profile,
-        timestamp=timestamp,
-        urgency="Baixa",
-        impact="Baixo",
-        priority="Baixo",
-        priority_justification="",
-        category="Requisição",
-        service_type="",
-        queue="",
-        internal_note="",
-        classification_justification="",
-        draft_response="",
-        draft_closure="",
-        route_decision="",
-        needs_human_review=False,
-        errors=[],
-    )
+    # ── Controle de fluxo ─────────────────────────────────────────────────────
+    route_decision:  str
