@@ -11,9 +11,6 @@ Serviços do Catálogo TIC:
   Software e Licenças | Sistemas Institucionais | Segurança da Informação |
   Equipamentos e Hardware | Outros
 
-Filas disponíveis:
-  SECLI-N1 | SECLI-N2 | DINTEC-Redes | DINTEC-Sistemas | DINTEC-Seg
-
 Responda APENAS com JSON válido, sem texto adicional:
 {"category": "...", "service_type": "...", "queue": "...", "justification": "..."}
 ---
