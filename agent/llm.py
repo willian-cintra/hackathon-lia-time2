@@ -1,6 +1,6 @@
 import os
+import re
 from langchain_openai import ChatOpenAI
-from langchain_core.exceptions import OutputParserException
 from openai import (
     AuthenticationError,
     RateLimitError,
@@ -8,6 +8,14 @@ from openai import (
     APIConnectionError,
     APIStatusError,
 )
+
+def _clean(text: str) -> str:
+    """Remove blocos de markdown que alguns modelos adicionam ao redor do JSON."""
+    text = text.strip()
+    # Remove ```json ... ``` ou ``` ... ```
+    text = re.sub(r"^```(?:json)?\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+    return text.strip()
 
 def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
 
@@ -70,4 +78,4 @@ def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> 
             "llm: o modelo retornou uma resposta vazia"
         )
 
-    return resposta.content
+    return _clean(resposta.content)

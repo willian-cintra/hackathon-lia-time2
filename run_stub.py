@@ -6,7 +6,7 @@ load_dotenv()
 TEST_TICKETS = [
     {
         "ticket_id":         "STUB-001",
-        "text":              "Preciso resetar minha senha do e-mail institucional, esqueci depois das férias.",
+        "text":              "Preciso resetar minha senha do e-mail institucional, esqueci depois das férias, mas ainda consigo usar o e-mail",
         "channel":           "OTRS",
         "requester_profile": "docente_tec_administrativo",
         "timestamp":         "2026-05-07T09:00:00",
@@ -29,7 +29,7 @@ TEST_TICKETS = [
 
 for ticket in TEST_TICKETS:
     print(f"\n── {ticket['ticket_id']} ────────────────────────────────")
-    print(f"Texto:  {ticket['text'][:60]}...")
+    print(f"Texto:  {ticket['text']}...")
     print(f"Canal:  {ticket['channel']} | Perfil: {ticket['requester_profile']}")
 
     result = graph.invoke(ticket)
