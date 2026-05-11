@@ -13,10 +13,42 @@ def run(state: TicketState) -> dict:
         requester_profile=state["requester_profile"],
     )
 
+    # erro de API ou timeout
     try:
-        data = json.loads(call_llm(system, user, temperature=0.0))
-    except Exception as e:
-        raise RuntimeError(f"classify_type falhou em {state['ticket_id']}: {e}")
+        resposta = call_llm(system, user, temperature=0.0)
+    except TimeoutError:
+        raise RuntimeError(
+            f"classify_type: timeout ao chamar o LLM "
+            f"no ticket {state['ticket_id']}"
+        )
+
+    # erro de JSON inválido
+    try:
+        data = json.loads(resposta)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            f"classify_type: LLM não retornou JSON válido "
+            f"no ticket {state['ticket_id']}. "
+            f"Resposta: {e.doc[:100]}"
+        )
+
+    # campos faltando
+    campos_esperados = {"category", "service_type", "queue", "justification"}
+    campos_faltando = campos_esperados - data.keys()
+    if campos_faltando:
+        raise RuntimeError(
+            f"classify_type: campos ausentes no ticket "
+            f"{state['ticket_id']}: {campos_faltando}"
+        )
+
+    # valor inválido
+    categorias_validas = {"Requisição", "Incidente", "Problema"}
+    if data["category"] not in categorias_validas:
+        raise RuntimeError(
+            f"classify_type: categoria inválida '{data['category']}' "
+            f"no ticket {state['ticket_id']}. "
+            f"Esperado: {categorias_validas}"
+        )
 
     return {
         "category":                     data["category"],
