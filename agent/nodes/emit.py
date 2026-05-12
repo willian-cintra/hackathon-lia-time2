@@ -15,6 +15,7 @@ def run(state: TicketState) -> dict:
         "classification_justification": state["classification_justification"],
         "has_draft":                    bool(state.get("draft_response")),
     })
+    save_csv()
     return {}
 
 
