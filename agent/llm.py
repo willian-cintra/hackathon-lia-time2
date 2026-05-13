@@ -11,12 +11,12 @@ from openai import (
 
 load_dotenv()
 
-# ── Acumulador thread-safe de tokens ──────────────────────────────────────────
+# ── Acumulador global thread-safe ─────────────────────────────────────────────
 _token_lock   = threading.Lock()
 _token_totals = {"prompt": 0, "completion": 0, "total": 0, "calls": 0}
 
 def get_token_totals() -> dict:
-    """Retorna cópia dos totais acumulados de tokens."""
+    """Retorna cópia dos totais acumulados de tokens da execução atual."""
     with _token_lock:
         return dict(_token_totals)
 
@@ -28,17 +28,7 @@ def reset_token_totals():
         _token_totals["total"]      = 0
         _token_totals["calls"]      = 0
 
-def _register_tokens(usage):
-    """Registra tokens de uma resposta no acumulador global."""
-    if not usage:
-        return
-    with _token_lock:
-        _token_totals["prompt"]     += getattr(usage, "prompt_tokens",     0)
-        _token_totals["completion"] += getattr(usage, "completion_tokens", 0)
-        _token_totals["total"]      += getattr(usage, "total_tokens",      0)
-        _token_totals["calls"]      += 1
-
-# ── Instâncias singleton do LLM ───────────────────────────────────────────────
+# ── Instâncias singleton ──────────────────────────────────────────────────────
 def _build_llm(temperature: float = 0.0) -> ChatOpenAI:
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
@@ -63,8 +53,16 @@ def _clean(text: str) -> str:
     text = re.sub(r"\s*```$", "", text)
     return text.strip()
 
-# ── Chamada principal ─────────────────────────────────────────────────────────
-def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
+# ── Chamada principal — retorna (texto, tokens_usados) ────────────────────────
+def call_llm(
+    system_prompt: str,
+    user_prompt: str,
+    temperature: float = 0.0,
+) -> tuple[str, int]:
+    """
+    Invoca o LLM e retorna uma tupla (texto_resposta, tokens_consumidos).
+    Os tokens também são acumulados no contador global para o relatório batch.
+    """
     llm = _llm_creative if temperature > 0 else _llm_deterministic
 
     messages = [
@@ -88,14 +86,19 @@ def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> 
     if not resposta.content or not resposta.content.strip():
         raise RuntimeError("llm: o modelo retornou uma resposta vazia.")
 
-    # Registrar tokens se disponíveis
+    # ── Captura de tokens ─────────────────────────────────────────────────────
+    tokens_usados = 0
     if hasattr(resposta, "response_metadata"):
-        usage = resposta.response_metadata.get("token_usage")
-        if usage:
-            with _token_lock:
-                _token_totals["prompt"]     += usage.get("prompt_tokens", 0)
-                _token_totals["completion"] += usage.get("completion_tokens", 0)
-                _token_totals["total"]      += usage.get("total_tokens", 0)
-                _token_totals["calls"]      += 1
+        usage = resposta.response_metadata.get("token_usage", {})
+        prompt_t     = usage.get("prompt_tokens", 0)
+        completion_t = usage.get("completion_tokens", 0)
+        total_t      = usage.get("total_tokens", 0)
+        tokens_usados = total_t
 
-    return _clean(resposta.content)
+        with _token_lock:
+            _token_totals["prompt"]     += prompt_t
+            _token_totals["completion"] += completion_t
+            _token_totals["total"]      += total_t
+            _token_totals["calls"]      += 1
+
+    return _clean(resposta.content), tokens_usados

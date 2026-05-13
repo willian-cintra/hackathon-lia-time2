@@ -39,6 +39,8 @@ def run(state: TicketState) -> dict:
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+    tokens = state.get("tokens_used", 0)
+
     entry = {
         "ticket_id":                    state["ticket_id"],
         "priority":                     state["priority"],
@@ -50,6 +52,7 @@ def run(state: TicketState) -> dict:
         "classification_justification": state["classification_justification"],
         "draft_response":               state.get("draft_response", ""),
         "draft_closure":                state.get("draft_closure", ""),
+        "tokens_used":                  tokens,
     }
 
     # ── JSON individual por ticket ────────────────────────────────────────────
@@ -74,6 +77,7 @@ def run(state: TicketState) -> dict:
         "timestamp":                    datetime.now().isoformat(),
         "ticket_id":                    state["ticket_id"],
         "processing_ms":                processing_ms,
+        "tokens_used":                  tokens,
         "route_decision":               state["route_decision"],
         "category":                     state["category"],
         "priority":                     state["priority"],
@@ -89,12 +93,12 @@ def run(state: TicketState) -> dict:
     with open(LOG_PATH, "a", encoding="utf-8") as f:
         f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
 
-    # ── Print resumido no terminal ────────────────────────────────────────────
     print(
         f"[emit] {state['ticket_id']} "
         f"| {state['category']:10} "
         f"| {state['priority']:8} "
         f"| {state['route_decision']:5} "
+        f"| {tokens:,} tokens "
         f"| {processing_ms}ms"
     )
     return {}

@@ -1,6 +1,6 @@
-langgraph>=0.2.0
-langchain-openai>=0.1.0
-langchain-core>=0.2.0
-python-dotenv>=1.0.0
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
+langgraph
+langchain-openai
+langchain-core
+python-dotenv
+pytest
+pytest-asyncio

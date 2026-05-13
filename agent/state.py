@@ -35,3 +35,6 @@ class TicketState(TypedDict):
 
     # ── Controle de fluxo ─────────────────────────────────────────────────
     route_decision:  Literal["draft", "queue"]
+
+    # ── Rastreamento de tokens por ticket ─────────────────────────────────
+    tokens_used: int

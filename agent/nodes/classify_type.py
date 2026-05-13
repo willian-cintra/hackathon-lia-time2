@@ -1,3 +1,4 @@
+# agent/nodes/classify_type.py
 import json
 from pathlib import Path
 from agent.state import TicketState
@@ -13,16 +14,14 @@ def run(state: TicketState) -> dict:
         requester_profile=state["requester_profile"],
     )
 
-    # erro de API ou timeout
     try:
-        resposta = call_llm(system, user, temperature=0.0)
+        resposta, tokens = call_llm(system, user, temperature=0.0)
     except TimeoutError:
         raise RuntimeError(
             f"classify_type: timeout ao chamar o LLM "
             f"no ticket {state['ticket_id']}"
         )
 
-    # erro de JSON inválido
     try:
         data = json.loads(resposta)
     except json.JSONDecodeError as e:
@@ -32,27 +31,27 @@ def run(state: TicketState) -> dict:
             f"Resposta: {e.doc[:100]}"
         )
 
-    # campos faltando
     campos_esperados = {"category", "service_type", "queue", "justification"}
-    campos_faltando = campos_esperados - data.keys()
+    campos_faltando  = campos_esperados - data.keys()
     if campos_faltando:
         raise RuntimeError(
             f"classify_type: campos ausentes no ticket "
             f"{state['ticket_id']}: {campos_faltando}"
         )
 
-    # valor inválido
     categorias_validas = {"Requisição", "Incidente", "Problema"}
     if data["category"] not in categorias_validas:
         raise RuntimeError(
             f"classify_type: categoria inválida '{data['category']}' "
-            f"no ticket {state['ticket_id']}. "
-            f"Esperado: {categorias_validas}"
+            f"no ticket {state['ticket_id']}. Esperado: {categorias_validas}"
         )
+
+    tokens_acumulados = state.get("tokens_used", 0) + tokens
 
     return {
         "category":                     data["category"],
         "service_type":                 data["service_type"],
         "queue":                        data["queue"],
         "classification_justification": data["justification"],
+        "tokens_used":                  tokens_acumulados,
     }
