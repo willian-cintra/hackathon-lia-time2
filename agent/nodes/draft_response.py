@@ -2,16 +2,21 @@ import json
 from pathlib import Path
 from agent.state import TicketState
 from agent.llm import call_llm
+from agent.utils.few_shot import build_few_shot
 
 PROMPT = Path("prompts/draft_response.md").read_text(encoding="utf-8")
 
 def run(state: TicketState) -> dict:
     system, user = PROMPT.split("---")
+
+    few_shot = build_few_shot(state["service_type"])
+
     user = user.format(
         text=state["text"],
         service_type=state["service_type"],
         requester_profile=state["requester_profile"],
         priority=state["priority"],
+        few_shot=few_shot,
     )
 
     # erro de API ou timeout

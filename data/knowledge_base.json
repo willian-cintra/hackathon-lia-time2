@@ -1,0 +1,52 @@
+[
+  {
+    "service_type": "Conta Institucional",
+    "text": "Esqueci minha senha do passaporte UFMS e preciso acessar hoje para confirmar matrícula.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à recuperação de senha do Passaporte UFMS. Para redefinir sua senha, acesse passaporte.ufms.br, clique em 'Esqueci minha senha' e siga as instruções enviadas para seu e-mail alternativo cadastrado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Conta Institucional",
+    "text": "Preciso criar um acesso institucional para um novo técnico administrativo que entrou no setor.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à criação de acesso institucional. Nossa equipe realizará o procedimento em até 1 dia útil. Caso necessite de acesso urgente, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Sistemas Institucionais",
+    "text": "O SIGProj está fora do ar desde as 8h e todo o departamento está sem acesso.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à indisponibilidade do SIGProj. Nossa equipe já foi acionada e está verificando o problema com prioridade. Assim que houver atualização, você será notificado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Sistemas Institucionais",
+    "text": "Não consigo acessar o portal do aluno, aparece erro 403.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao erro de acesso ao Portal do Aluno. Nossa equipe irá verificar sua situação em até 4 horas úteis. Se possível, tente acessar por outro navegador ou dispositivo enquanto isso.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Equipamentos e Hardware",
+    "text": "O projetor da sala 204 não liga desde ontem e tenho aula agora.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao projetor da sala 204. Nossa equipe de suporte de campo foi acionada e realizará o atendimento com prioridade. Em caso de urgência imediata, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Equipamentos e Hardware",
+    "text": "Minha impressora parou de funcionar, aparece erro de conexão.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à impressora com erro de conexão. Nossa equipe realizará o diagnóstico em até 4 horas úteis. Enquanto isso, verifique se o cabo USB ou de rede está corretamente conectado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes e Conectividade",
+    "text": "A rede wi-fi do bloco B está muito instável desde ontem à tarde.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instabilidade da rede wi-fi no bloco B. Nossa equipe de infraestrutura foi notificada e iniciará a verificação em até 2 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "E-mail Institucional",
+    "text": "Meu e-mail institucional não está recebendo mensagens desde sexta-feira.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao problema de recebimento de e-mails institucionais. Nossa equipe verificará sua caixa de entrada e configurações em até 4 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Software e Licenças",
+    "text": "O pacote Office parou de funcionar no meu computador, aparece mensagem de licença expirada.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à licença do pacote Office. Nossa equipe verificará sua licença institucional e realizará a reativação em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Segurança da Informação",
+    "text": "Recebi um e-mail suspeito pedindo minha senha institucional, acho que é phishing.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente a um possível ataque de phishing. Não clique em nenhum link do e-mail suspeito e não forneça suas credenciais. Nossa equipe de segurança irá analisar o caso com prioridade.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  }
+]
