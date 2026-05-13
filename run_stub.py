@@ -42,4 +42,4 @@ for ticket in TEST_TICKETS:
     print(f"Rota:          {result.get('route_decision')}")
 
     if result.get("draft_response"):
-        print(f"Draft:         {result['draft_response'][:80]}...")
+        print(f"Draft:         {result['draft_response']}...")
