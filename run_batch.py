@@ -1,4 +1,3 @@
-# run_batch.py
 import json
 import os
 import time

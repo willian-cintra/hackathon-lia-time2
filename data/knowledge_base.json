@@ -1,172 +1,182 @@
 [
   {
-    "service_type": "Conta Institucional",
-    "text": "Esqueci minha senha do passaporte UFMS e preciso acessar hoje para confirmar matrícula.",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à recuperação de senha do Passaporte UFMS. Para redefinir sua senha, acesse passaporte.ufms.br, clique em 'Esqueci minha senha' e siga as instruções enviadas para seu e-mail alternativo cadastrado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Acesso a Recursos de Informação",
+    "text": "Esqueci minha senha do Passaporte UFMS e preciso acessar o sistema hoje.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à recuperação de senha do Passaporte UFMS. Acesse passaporte.ufms.br, clique em 'Esqueci minha senha' e siga as instruções enviadas para seu e-mail alternativo cadastrado. O procedimento será concluído em até 12 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Conta Institucional",
-    "text": "Preciso criar um acesso institucional para um novo técnico administrativo que entrou no setor.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à criação de acesso institucional. Nossa equipe realizará o procedimento em até 1 dia útil. Caso necessite de acesso urgente, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Acesso a Recursos de Informação",
+    "text": "Preciso criar um acesso institucional para novo técnico administrativo que entrou no setor.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua solicitação de criação de acesso institucional para novo colaborador. Nossa equipe realizará o cadastro no Passaporte UFMS em até 12 horas úteis. Para urgências, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Conta Institucional",
-    "text": "Estou com a conta do SEI bloqueada e preciso urgentemente protocolar documentos.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao bloqueio da conta no SEI. Nossa equipe realizará o desbloqueio em até 4 horas úteis. Para casos urgentes, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Acesso a Recursos de Informação",
+    "text": "Minha conta no SEI está bloqueada e preciso acessar para protocolar documentos.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao bloqueio de conta no SEI. Nossa equipe realizará o desbloqueio em até 12 horas úteis. Para casos com prazos institucionais urgentes, ligue para (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Conta Institucional",
-    "text": "Esqueci meu login do Portal do Aluno e não consigo acessar minhas notas.",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à recuperação de acesso ao Portal do Aluno. Acesse o portal, clique em 'Esqueci minha senha' e informe seu CPF para receber as instruções de redefinição no e-mail cadastrado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Acesso a Recursos de Informação",
+    "text": "Não consigo acessar o Portal do Aluno, não lembro meu login.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao acesso ao Portal do Aluno. Seu login é o CPF e a senha é a mesma do Passaporte UFMS. Para redefinir, acesse passaporte.ufms.br e clique em 'Esqueci minha senha'.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Sistemas Institucionais",
-    "text": "O SIGProj está fora do ar desde as 8h e todo o departamento está sem acesso.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à indisponibilidade do SIGProj. Nossa equipe já foi acionada e está verificando o problema com prioridade. Assim que houver atualização, você será notificado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Acesso a Recursos de Informação",
+    "text": "Solicito criação de Passaporte UFMS para professor contratado que inicia esta semana.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua solicitação de cadastro de Passaporte UFMS para novo professor contratado. Para prosseguir, a chefia imediata deve formalizar a solicitação via SEI com o Termo de Responsabilidade de Uso. Nossa equipe realizará o cadastro em até 12 horas úteis após o recebimento.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Sistemas Institucionais",
-    "text": "Não consigo acessar o portal do aluno, aparece erro 403.",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao erro de acesso ao Portal do Aluno. Nossa equipe irá verificar sua situação em até 4 horas úteis. Se possível, tente acessar por outro navegador ou dispositivo enquanto isso.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "E-mail",
+    "text": "Como faço para configurar meu e-mail institucional no celular?",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua dúvida referente à configuração do e-mail institucional no dispositivo móvel. Utilize: servidor IMAP imap.gmail.com, porta 993, SSL ativado, e-mail usuario@ufms.br e senha do Passaporte UFMS. Nossa equipe está disponível para auxiliar em até 2 horas úteis caso encontre dificuldades.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Sistemas Institucionais",
-    "text": "O SEI não está acessível e não consigo protocolar documentos essenciais.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à indisponibilidade do SEI. Nossa equipe foi acionada e está trabalhando para restabelecer o acesso com prioridade. Você será notificado assim que o sistema estiver disponível.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Sistemas Institucionais",
-    "text": "Estou com dificuldades para acessar o Moodle, não consigo entrar nos cursos.",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao acesso ao Moodle. Nossa equipe verificará sua situação em até 4 horas úteis. Enquanto isso, tente limpar o cache do navegador ou acesse por outro dispositivo.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Equipamentos e Hardware",
-    "text": "O projetor da sala 204 não liga desde ontem e tenho aula agora.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao projetor da sala 204. Nossa equipe de suporte de campo foi acionada e realizará o atendimento com prioridade. Em caso de urgência imediata, entre em contato pelo telefone (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Equipamentos e Hardware",
-    "text": "Minha impressora parou de funcionar, aparece erro de conexão.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à impressora com erro de conexão. Nossa equipe realizará o diagnóstico em até 4 horas úteis. Enquanto isso, verifique se o cabo USB ou de rede está corretamente conectado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Equipamentos e Hardware",
-    "text": "Meu computador não liga desde esta manhã e preciso dele para as atividades do dia.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao computador que não está ligando. Nossa equipe de suporte de campo realizará o diagnóstico em até 4 horas úteis. Se necessário, providenciaremos um equipamento substituto enquanto o seu estiver em manutenção.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Equipamentos e Hardware",
-    "text": "Não consigo conectar o projetor ao notebook na sala de aula.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à conexão do projetor ao notebook. Nossa equipe verificará o equipamento e os cabos disponíveis na sala em até 2 horas úteis. Para atendimento imediato, ligue para (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Redes e Conectividade",
-    "text": "A rede wi-fi do bloco B está muito instável desde ontem à tarde.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instabilidade da rede wi-fi no bloco B. Nossa equipe de infraestrutura foi notificada e iniciará a verificação em até 2 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Redes e Conectividade",
-    "text": "O WiFi do laboratório caiu durante a prova e os alunos não conseguem acessar o Portal do Aluno.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à queda da rede wi-fi no laboratório. Nossa equipe de infraestrutura foi acionada com prioridade e iniciará o atendimento imediatamente. Entre em contato pelo telefone (67) 3345-7292 para acompanhamento em tempo real.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Redes e Conectividade",
-    "text": "A rede UFMS-ADM cai toda semana no mesmo horário, afetando vários setores.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instabilidade recorrente da rede UFMS-ADM. Por se tratar de uma falha repetida, nossa equipe de infraestrutura realizará uma análise aprofundada para identificar a causa raiz. Acompanharemos o caso e retornaremos em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "E-mail Institucional",
+    "service_type": "E-mail",
     "text": "Meu e-mail institucional não está recebendo mensagens desde sexta-feira.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao problema de recebimento de e-mails institucionais. Nossa equipe verificará sua caixa de entrada e configurações em até 4 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao problema de recebimento de e-mails institucionais. Nossa equipe verificará as configurações da sua conta em até 2 horas úteis. Enquanto isso, verifique se as mensagens não estão sendo filtradas para a pasta de spam.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "E-mail Institucional",
-    "text": "Estou com dificuldades para configurar meu e-mail institucional no celular.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à configuração do e-mail institucional no dispositivo móvel. Para configurar, utilize as seguintes informações: servidor IMAP: mail.ufms.br, porta 993, SSL ativado. Nossa equipe está disponível para auxiliar em até 1 dia útil caso ainda encontre dificuldades.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "E-mail",
+    "text": "Como acesso meu e-mail institucional pela primeira vez?",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos sua dúvida sobre o primeiro acesso ao e-mail institucional. Acesse mail.google.com e faça login com seu_usuario@ufms.br e a senha do Passaporte UFMS. O acesso é liberado automaticamente em até 2 horas após a criação do Passaporte.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "E-mail Institucional",
+    "service_type": "E-mail",
+    "text": "Não consigo enviar e-mails pelo Gmail institucional, fica dando erro.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao erro no envio de e-mails institucionais. Nossa equipe verificará as configurações da sua conta e identificará a causa do problema em até 2 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "E-mail",
     "text": "Minha conta de e-mail institucional está enviando mensagens sem minha autorização.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao envio não autorizado de e-mails pela sua conta. Por segurança, nossa equipe irá suspender temporariamente o envio e verificar o acesso à sua conta com prioridade. Troque sua senha imediatamente acessando mail.ufms.br.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao envio não autorizado de e-mails. Por segurança, nossa equipe suspenderá o envio e iniciará investigação com prioridade. Troque sua senha imediatamente em passaporte.ufms.br.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Software e Licenças",
-    "text": "O pacote Office parou de funcionar no meu computador, aparece mensagem de licença expirada.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à licença do pacote Office. Nossa equipe verificará sua licença institucional e realizará a reativação em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Sistemas de Informação",
+    "text": "O SIGProj está fora do ar desde as 8h e todo o departamento está parado.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à indisponibilidade do SIGProj. Nossa equipe já foi acionada e está trabalhando na resolução com prioridade. Você será notificado assim que o sistema estiver disponível.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Software e Licenças",
-    "text": "Gostaria de solicitar a instalação do pacote Office no meu computador do trabalho.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à solicitação de instalação do pacote Office. Nossa equipe agendará a instalação em até 1 dia útil. Certifique-se de que o equipamento estará disponível e ligado no horário combinado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Sistemas de Informação",
+    "text": "Não consigo acessar o Portal do Aluno, aparece erro 403.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao erro de acesso ao Portal do Aluno. Nossa equipe verificará sua situação. Enquanto isso, tente acessar por outro navegador ou limpe o cache do seu navegador atual.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Software e Licenças",
-    "text": "Preciso instalar o antivírus institucional no meu computador.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instalação do antivírus institucional. Nossa equipe realizará a instalação remotamente em até 1 dia útil. Mantenha o computador ligado e conectado à rede no período.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Sistemas de Informação",
+    "text": "O SEI não está acessível e tenho documentos para protocolar hoje.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à indisponibilidade do SEI. Nossa equipe foi acionada e está trabalhando para restabelecer o acesso. Para documentos com prazo urgente, entre em contato pelo (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Software e Licenças",
-    "text": "Preciso instalar a VPN no computador da sala de professores para acessar sistemas internos.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instalação da VPN. Nossa equipe realizará a instalação e configuração em até 1 dia útil. Após a instalação, você receberá as credenciais de acesso por e-mail institucional.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Sistemas de Informação",
+    "text": "Não consigo acessar o Moodle para enviar minha atividade.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao acesso ao Moodle. Tente: limpar o cache do navegador e acessar por outro navegador. Caso o problema persista, nossa equipe verificará sua situação.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Sistemas de Informação",
+    "text": "O Moodle cai toda semana no mesmo horário, já é a quarta vez este mês.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à falha recorrente no Moodle. Por se tratar de problema repetido, nossa equipe realizará análise aprofundada para identificar e corrigir a causa raiz. Retornaremos com atualização em breve.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Manutenção",
+    "text": "O projetor da sala 204 não liga e tenho aula agora.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao projetor da sala 204. Nossa equipe de suporte de campo foi acionada e realizará o atendimento com prioridade. Para contato imediato, ligue para (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Manutenção",
+    "text": "Gostaria de solicitar a instalação do pacote Office no meu computador.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua solicitação de instalação do pacote Office. Nossa equipe agendará o atendimento em até 48 horas úteis. Certifique-se de que o computador estará disponível e ligado no horário combinado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Manutenção",
+    "text": "Meu computador não liga desde esta manhã.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao computador que não está ligando. Nossa equipe de suporte de campo realizará o diagnóstico em até 48 horas úteis. Se necessário, providenciaremos equipamento substituto durante a manutenção.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Manutenção",
+    "text": "Preciso instalar o antivírus institucional no meu notebook de trabalho.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua solicitação de instalação do antivírus institucional. Nossa equipe realizará a instalação remotamente em até 48 horas úteis. Mantenha o computador ligado e conectado à rede no período.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Manutenção",
+    "text": "Minha impressora parou de funcionar, aparece erro de conexão.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à impressora com erro de conexão. Nossa equipe realizará o diagnóstico em até 48 horas úteis. Enquanto isso, verifique se o cabo USB ou de rede está corretamente conectado.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes",
+    "text": "O WiFi do laboratório caiu durante a prova e os alunos não conseguem acessar o sistema.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à queda da rede Wi-Fi no laboratório. Nossa equipe de infraestrutura foi acionada com prioridade. Para acompanhamento em tempo real, ligue para (67) 3345-7292.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes",
+    "text": "Estou tendo dificuldade para conectar à VPN da AGETIC.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao acesso à VPN. Verifique se o cliente VPN está instalado e atualizado e se suas credenciais do Passaporte UFMS estão corretas. Nossa equipe responderá em até 24 horas úteis caso o problema persista.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes",
+    "text": "A rede do bloco B está instável há três dias, afetando todos os setores.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à instabilidade da rede no bloco B. Nossa equipe de infraestrutura iniciará a verificação em até 24 horas úteis. Monitoraremos o caso até a resolução definitiva.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes",
+    "text": "Como faço para conectar meu dispositivo à rede Eduroam?",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos sua dúvida sobre a conexão à rede Eduroam. Para acessar, utilize suas credenciais do Passaporte UFMS (usuario@ufms.br e senha). O tutorial completo está disponível em agetic.ufms.br. Nossa equipe está disponível em até 24 horas úteis para auxiliar.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+  },
+  {
+    "service_type": "Redes",
+    "text": "A rede UFMS-ADM cai toda semana no mesmo horário, já é a quarta vez.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à falha recorrente na rede UFMS-ADM. Por se tratar de problema sistemático, nossa equipe de infraestrutura realizará análise aprofundada para identificar a causa raiz. Retornaremos com diagnóstico em até 24 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
     "service_type": "Segurança da Informação",
-    "text": "Recebi um e-mail suspeito pedindo minha senha institucional, acho que é phishing.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente a um possível ataque de phishing. Não clique em nenhum link do e-mail suspeito e não forneça suas credenciais. Nossa equipe de segurança irá analisar o caso com prioridade.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "text": "Recebi um e-mail suspeito pedindo minha senha institucional.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à possível tentativa de phishing. Não clique em nenhum link do e-mail suspeito e não forneça suas credenciais. Nossa equipe de segurança analisará o caso com prioridade e entrará em contato em breve.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
     "service_type": "Segurança da Informação",
-    "text": "Minha conta foi comprometida e percebo que vários e-mails estão sendo enviados sem meu consentimento.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao comprometimento da sua conta institucional. Nossa equipe de segurança irá suspender o acesso imediatamente e iniciar a investigação. Troque sua senha agora mesmo e não utilize a conta comprometida até novo aviso.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "text": "Minha conta foi comprometida, estão enviando e-mails sem minha autorização.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao comprometimento da sua conta institucional. Nossa equipe suspenderá o acesso imediatamente e iniciará investigação. Troque sua senha agora em passaporte.ufms.br e não utilize a conta até novo aviso.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
     "service_type": "Segurança da Informação",
-    "text": "Suspeito que meu computador foi infectado por vírus, está apresentando comportamento estranho.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à suspeita de infecção por vírus. Por segurança, desconecte o computador da rede imediatamente. Nossa equipe de segurança realizará a varredura e limpeza com prioridade em até 2 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "text": "Suspeito que meu computador foi infectado por vírus, está com comportamento estranho.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à suspeita de infecção por vírus. Por segurança, desconecte o computador da rede imediatamente. Nossa equipe realizará varredura e limpeza com prioridade.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Como faço para acessar a VPN da AGETIC? Estou tendo dificuldades com a autenticação.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao acesso à VPN da AGETIC. Para autenticar, utilize suas credenciais institucionais (mesmo login e senha do e-mail). Caso o problema persista, nossa equipe entrará em contato em até 1 dia útil com as instruções detalhadas de configuração.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Segurança da Informação",
+    "text": "Alguém está usando meu login institucional sem minha autorização.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao uso não autorizado das suas credenciais. Nossa equipe bloqueará o acesso imediatamente e iniciará investigação. Troque sua senha agora em passaporte.ufms.br.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Qual o procedimento para configurar a VPN no meu laptop? Agradeço a ajuda.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à configuração da VPN. Nossa equipe enviará o manual de configuração para seu e-mail institucional em até 1 dia útil. Caso prefira atendimento presencial, compareça ao balcão da AGETIC no horário de funcionamento.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Segurança da Informação",
+    "text": "Há arquivos sendo criptografados automaticamente no servidor do departamento.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente à criptografia não autorizada de arquivos. Isso pode indicar ataque de ransomware. Desconecte o servidor da rede imediatamente. Nossa equipe de segurança será acionada com máxima prioridade.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Olá, gostaria de uma orientação sobre como usar o SIGProj para acompanhar meus projetos.",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao uso do SIGProj. Nossa equipe disponibilizará um guia de uso básico por e-mail em até 1 dia útil. Para dúvidas mais específicas, você também pode agendar um atendimento presencial na AGETIC.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Atendimento ao Usuário",
+    "text": "Como faço para acessar a VPN da AGETIC? Estou com dificuldades na autenticação.",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua dúvida sobre o acesso à VPN. Para autenticar, utilize suas credenciais do Passaporte UFMS. Nossa equipe enviará o guia de configuração por e-mail em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Estou perdido no Moodle, poderia me mostrar como acessar os cursos?",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao uso do Moodle. Para acessar seus cursos, faça login com suas credenciais institucionais em moodle.ufms.br e localize a disciplina na lista de cursos disponíveis. Caso ainda tenha dificuldades, nossa equipe responderá em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Atendimento ao Usuário",
+    "text": "Como faço para usar o SIGProj para acompanhar meus projetos?",
+    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos sua dúvida sobre o uso do SIGProj. Nossa equipe disponibilizará um guia de uso básico por e-mail em até 1 dia útil. Para dúvidas específicas, você pode agendar atendimento presencial na AGETIC.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Como posso acessar o SIGECAD? Há algum passo a passo que eu possa seguir?",
-    "draft_response": "Prezado(a) servidor(a),\n\nRecebemos seu chamado referente ao acesso ao SIGECAD. Para acessar o sistema, utilize suas credenciais institucionais no endereço sigecad.ufms.br. Nossa equipe enviará um guia de primeiros passos por e-mail em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Atendimento ao Usuário",
+    "text": "O sistema não está funcionando. Preciso de ajuda.",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado. Para que possamos ajudar com mais agilidade, precisamos de informações adicionais: qual sistema você está tentando acessar e qual mensagem de erro aparece na tela? Nossa equipe aguarda seu retorno.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "O sistema não está funcionando. Preciso de ajuda com isso.",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado. Para que possamos ajudar com mais agilidade, precisamos de algumas informações adicionais: qual sistema você está tentando acessar? Qual mensagem de erro aparece na tela? Nossa equipe aguardará seu retorno para dar continuidade ao atendimento.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
-  },
-  {
-    "service_type": "Outros",
+    "service_type": "Atendimento ao Usuário",
     "text": "Não consigo acessar o Moodle. Está dando erro. O que posso fazer?",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao erro de acesso ao Moodle. Tente as seguintes ações: limpe o cache do navegador, tente outro navegador ou dispositivo, e verifique se seu login e senha estão corretos. Caso o problema persista, nossa equipe verificará sua situação em até 4 horas úteis.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado sobre o acesso ao Moodle. Tente: limpar o cache do navegador, usar outro navegador ou acessar por outro dispositivo. Caso persista, nossa equipe verificará sua situação em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
-    "text": "Toda vez que tento acessar o Office, aparece uma mensagem de erro. O que está acontecendo?",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente ao erro ao acessar o Office. Para nos ajudar a identificar o problema, informe qual mensagem de erro está aparecendo. Nossa equipe analisará o caso e retornará em até 1 dia útil com a solução.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "service_type": "Atendimento ao Usuário",
+    "text": "Como faço para solicitar suporte da AGETIC?",
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado. O suporte da AGETIC pode ser solicitado pelos seguintes canais: sistema de chamados em suporteagetic.ufms.br, e-mail suporte.agetic@ufms.br ou telefone (67) 3345-7292. Nossa equipe está disponível de segunda a sexta, das 7h às 11h e das 13h às 17h.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   },
   {
-    "service_type": "Outros",
+    "service_type": "Atendimento ao Usuário",
     "text": "Meu computador não está conectando à VPN. Alguém pode me orientar?",
-    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à dificuldade de conexão com a VPN. Verifique se o cliente VPN está instalado e atualizado e se suas credenciais institucionais estão corretas. Caso persista, nossa equipe entrará em contato em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
+    "draft_response": "Prezado(a) discente,\n\nRecebemos seu chamado referente à dificuldade de conexão com a VPN. Verifique se o cliente VPN está instalado e atualizado e se suas credenciais do Passaporte UFMS estão corretas. Nossa equipe responderá em até 1 dia útil.\n\nAtenciosamente,\nEquipe de Suporte AGETIC/UFMS"
   }
 ]
