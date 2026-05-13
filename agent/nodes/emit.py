@@ -1,8 +1,10 @@
+# agent/nodes/emit.py
 import csv
+import json
 import os
 from agent.state import TicketState
 
-_batch: list[dict] = []
+OUTPUT_DIR = "outputs"
 
 CAMPOS_OBRIGATORIOS = {
     "ticket_id", "priority", "category",
@@ -11,8 +13,6 @@ CAMPOS_OBRIGATORIOS = {
 }
 
 def run(state: TicketState) -> dict:
-
-    # campos obrigatórios faltando
     campos_faltando = CAMPOS_OBRIGATORIOS - state.keys()
     if campos_faltando:
         raise RuntimeError(
@@ -20,16 +20,16 @@ def run(state: TicketState) -> dict:
             f"{state.get('ticket_id', 'DESCONHECIDO')}: {campos_faltando}"
         )
 
-    # route_decision inválido
     rotas_validas = {"draft", "queue"}
     if state.get("route_decision") not in rotas_validas:
         raise RuntimeError(
             f"emit: route_decision inválido '{state.get('route_decision')}' "
-            f"no ticket {state['ticket_id']}. "
-            f"Esperado: {rotas_validas}"
+            f"no ticket {state['ticket_id']}"
         )
 
-    _batch.append({
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    entry = {
         "ticket_id":                    state["ticket_id"],
         "priority":                     state["priority"],
         "category":                     state["category"],
@@ -38,30 +38,23 @@ def run(state: TicketState) -> dict:
         "route_decision":               state["route_decision"],
         "priority_justification":       state["priority_justification"],
         "classification_justification": state["classification_justification"],
-        "has_draft":                    bool(state.get("draft_response")),
-    })
+        "draft_response":               state.get("draft_response", ""),
+        "draft_closure":                state.get("draft_closure", ""),
+    }
 
-    return {}
+    # JSON individual por ticket
+    json_path = os.path.join(OUTPUT_DIR, f"{state['ticket_id']}.json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(entry, f, ensure_ascii=False, indent=2)
 
-def save_csv(path: str = "outputs/results.csv"):
-
-    # nada para salvar
-    if not _batch:
-        raise RuntimeError("emit: nenhum chamado foi processado, CSV não gerado.")
-
-    try:
-        os.makedirs("outputs", exist_ok=True)
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=_batch[0].keys())
+    # CSV acumulativo (append)
+    csv_path = os.path.join(OUTPUT_DIR, "results.csv")
+    file_exists = os.path.isfile(csv_path)
+    with open(csv_path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=entry.keys())
+        if not file_exists:
             writer.writeheader()
-            writer.writerows(_batch)
-        print(f"{len(_batch)} chamados salvos em {path}")
+        writer.writerow(entry)
 
-    except PermissionError:
-        raise RuntimeError(
-            f"emit: sem permissão para salvar o arquivo em '{path}'"
-        )
-    except OSError as e:
-        raise RuntimeError(
-            f"emit: erro ao salvar CSV em '{path}': {e}"
-        )
+    print(f"[emit] {state['ticket_id']} → {state['route_decision']} | salvo em {json_path}")
+    return {}

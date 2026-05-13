@@ -4,21 +4,19 @@ from agent.nodes import ingest, score_priority, classify_type
 from agent.nodes import draft_response, queue_only, emit
  
 def route_fn(state: TicketState) -> str:
- 
     priority = state.get("priority")
     category = state.get("category")
- 
-    # campos ausentes
+
+    #sem dados suficientes → fila humana
     if not priority or not category:
-        raise RuntimeError(
-            f"route_fn: 'priority' ou 'category' ausentes no estado "
-            f"do ticket {state.get('ticket_id', 'DESCONHECIDO')}"
+        print(
+            f"[route_fn] AVISO: 'priority' ou 'category' ausentes "
+            f"no ticket {state.get('ticket_id', 'DESCONHECIDO')}. "
+            f"Roteando para fila humana."
         )
- 
-    if (
-        priority in ("Médio", "Baixo")
-        and category == "Requisição"
-    ):
+        return "queue"
+
+    if priority in ("Médio", "Baixo") and category == "Requisição":
         return "draft"
     return "queue"
  

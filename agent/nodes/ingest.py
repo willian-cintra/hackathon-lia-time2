@@ -1,9 +1,16 @@
 from agent.state import TicketState
+import re
 
 CAMPOS_OBRIGATORIOS = {"ticket_id", "text", "channel", "requester_profile", "timestamp"}
 
 CANAIS_VALIDOS = {"OTRS", "Telefone", "Balcão", "E-mail"}
 PERFIS_VALIDOS = {"aluno", "docente_tec_administrativo"}
+
+def _normalize(text: str) -> str:
+    """Remove espaços duplicados, quebras múltiplas e tabulações."""
+    text = re.sub(r"[\t\r\n]+", " ", text)        # quebras
+    text = re.sub(r" {2,}", " ", text)              # múltiplos espaços
+    return text.strip()
 
 def run(state: TicketState) -> dict:
 
@@ -16,7 +23,7 @@ def run(state: TicketState) -> dict:
         )
 
     # texto vazio
-    texto = state["text"].strip()
+    texto = _normalize(state["text"].strip())
     if not texto:
         raise RuntimeError(
             f"ingest: texto do chamado está vazio "

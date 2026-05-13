@@ -1,39 +1,42 @@
+# agent/llm.py — versão com singleton e retry
 import os
 import re
+from dotenv import load_dotenv
+
 from langchain_openai import ChatOpenAI
 from openai import (
-    AuthenticationError,
-    RateLimitError,
-    NotFoundError,
-    APIConnectionError,
-    APIStatusError,
+    AuthenticationError, RateLimitError, NotFoundError,
+    APIConnectionError, APIStatusError,
 )
 
-def _clean(text: str) -> str:
-    """Remove blocos de markdown que alguns modelos adicionam ao redor do JSON."""
+load_dotenv()
+
+def build_llm(temperature: float = 0.0) -> ChatOpenAI:
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "llm: OPENROUTER_API_KEY não encontrada. Verifique seu arquivo .env"
+        )
+    return ChatOpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,
+        model=os.environ.get("LLM_MODEL", "google/gemma-4-31b-it"),
+        temperature=temperature,
+        timeout=30,
+    ).with_retry(stop_after_attempt=3, wait_exponential_jitter=True)
+
+# Instâncias únicas — criadas no import do módulo
+llm_deterministic = build_llm(temperature=0.0)
+llm_creative      = build_llm(temperature=0.3)
+
+def clean(text: str) -> str:
     text = text.strip()
-    # Remove ```json ... ``` ou ``` ... ```
     text = re.sub(r"^```(?:json)?\s*", "", text)
     text = re.sub(r"\s*```$", "", text)
     return text.strip()
 
 def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
-
-    # chave ausente
-    api_key = os.environ.get("OPENROUTER_API_KEY")
-    if not api_key:
-        raise RuntimeError(
-            "llm: OPENROUTER_API_KEY não encontrada. "
-            "Verifique seu arquivo .env"
-        )
-
-    llm = ChatOpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=api_key,
-        model="google/gemma-4-31b-it",
-        temperature=temperature,
-        timeout=30,
-    )
+    llm = llm_creative if temperature > 0 else llm_deterministic
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -42,40 +45,18 @@ def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> 
 
     try:
         resposta = llm.invoke(messages)
-
     except AuthenticationError:
-        raise RuntimeError(
-            "llm: chave de API inválida ou expirada. "
-            "Verifique sua OPENROUTER_API_KEY"
-        )
+        raise RuntimeError("llm: chave de API inválida ou expirada.")
     except RateLimitError:
-        raise RuntimeError(
-            "llm: limite de uso da API atingido. "
-            "Aguarde ou verifique seus créditos no OpenRouter"
-        )
+        raise RuntimeError("llm: limite de uso da API atingido. Aguarde ou verifique créditos.")
     except NotFoundError:
-        raise RuntimeError(
-            "llm: modelo não encontrado. "
-            "Verifique se 'google/gemma-4-31b-it' ainda está disponível"
-        )
+        raise RuntimeError(f"llm: modelo não encontrado.")
     except APIConnectionError:
-        raise RuntimeError(
-            "llm: sem conexão com o OpenRouter. "
-            "Verifique sua internet ou se o serviço está no ar"
-        )
-    except TimeoutError:
-        raise RuntimeError(
-            "llm: timeout — o modelo não respondeu em 30 segundos"
-        )
+        raise RuntimeError("llm: sem conexão com o OpenRouter.")
     except APIStatusError as e:
-        raise RuntimeError(
-            f"llm: erro do servidor OpenRouter (status {e.status_code}): {e.message}"
-        )
+        raise RuntimeError(f"llm: erro do servidor (status {e.status_code}): {e.message}")
 
-    # resposta vazia
     if not resposta.content or not resposta.content.strip():
-        raise RuntimeError(
-            "llm: o modelo retornou uma resposta vazia"
-        )
+        raise RuntimeError("llm: o modelo retornou uma resposta vazia.")
 
-    return _clean(resposta.content)
+    return clean(resposta.content)
