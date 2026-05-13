@@ -11,7 +11,7 @@ from openai import (
 
 load_dotenv()
 
-def build_llm(temperature: float = 0.0) -> ChatOpenAI:
+def _build_llm(temperature: float = 0.0) -> ChatOpenAI:
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         raise RuntimeError(
@@ -26,17 +26,17 @@ def build_llm(temperature: float = 0.0) -> ChatOpenAI:
     ).with_retry(stop_after_attempt=3, wait_exponential_jitter=True)
 
 # Instâncias únicas — criadas no import do módulo
-llm_deterministic = build_llm(temperature=0.0)
-llm_creative      = build_llm(temperature=0.3)
+_llm_deterministic = _build_llm(temperature=0.0)
+_llm_creative      = _build_llm(temperature=0.3)
 
-def clean(text: str) -> str:
+def _clean(text: str) -> str:
     text = text.strip()
     text = re.sub(r"^```(?:json)?\s*", "", text)
     text = re.sub(r"\s*```$", "", text)
     return text.strip()
 
 def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> str:
-    llm = llm_creative if temperature > 0 else llm_deterministic
+    llm = _llm_creative if temperature > 0 else _llm_deterministic
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -59,4 +59,4 @@ def call_llm(system_prompt: str, user_prompt: str, temperature: float = 0.0) -> 
     if not resposta.content or not resposta.content.strip():
         raise RuntimeError("llm: o modelo retornou uma resposta vazia.")
 
-    return clean(resposta.content)
+    return _clean(resposta.content)
