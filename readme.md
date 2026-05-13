@@ -159,7 +159,7 @@ Após rodar o `run_batch.py`, a pasta `outputs/` conterá:
 - `results.csv` — todos os tickets consolidados em planilha
 - `human_queue.json` — chamados encaminhados para analista humano
 - `metrics.json` — acerto por dimensão, tempo médio e consumo de tokens
-- `run.jsonl` — log estruturado com uma linha JSON por ticket processado
+- `log.jsonl` — log estruturado com uma linha JSON por ticket processado
 
 ---
 
