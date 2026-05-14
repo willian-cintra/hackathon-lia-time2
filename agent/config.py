@@ -11,6 +11,11 @@ PROMPTS_DIR = BASE_DIR / "prompts"
 TICKETS_PATH     = DATA_DIR / "tickets.json"
 KNOWLEDGE_BASE_PATH = DATA_DIR / "knowledge_base.json"
 
+# ── Prompts ────────────────────────────────────────────────────────────────────
+SCORE_PRIORITY_PROMPT  = PROMPTS_DIR / "score_priority.md"
+CLASSIFY_TYPE_PROMPT  = PROMPTS_DIR / "classify_type.md"
+DRAFT_RESPONSE_PROMPT = PROMPTS_DIR / "draft_response.md"
+
 # ── Arquivos de saída ─────────────────────────────────────────────────────────
 LOG_JSONL_PATH   = OUTPUTS_DIR / "log.jsonl"
 RESULTS_CSV_PATH = OUTPUTS_DIR / "results.csv"

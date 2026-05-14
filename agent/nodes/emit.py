@@ -1,4 +1,3 @@
-# agent/nodes/emit.py
 import csv
 import json
 import os

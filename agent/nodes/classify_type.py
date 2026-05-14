@@ -3,10 +3,10 @@ from pathlib import Path
 from agent.state import TicketState
 from agent.llm import call_llm
 from agent.logger import get_logger
-
+from agent.config import CLASSIFY_TYPE_PROMPT
 logger = get_logger(__name__)
 
-PROMPT = Path("prompts/classify_type.md").read_text(encoding="utf-8")
+PROMPT = CLASSIFY_TYPE_PROMPT.read_text(encoding="utf-8")
 
 CATEGORIAS_VALIDAS = {"Requisição", "Incidente", "Problema"}
 

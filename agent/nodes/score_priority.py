@@ -3,10 +3,11 @@ from pathlib import Path
 from agent.state import TicketState
 from agent.llm import call_llm
 from agent.logger import get_logger
+from agent.config import SCORE_PRIORITY_PROMPT
 
 logger = get_logger(__name__)
 
-PROMPT = Path("prompts/score_priority.md").read_text(encoding="utf-8")
+PROMPT = SCORE_PRIORITY_PROMPT.read_text(encoding="utf-8")
 
 PRIORITY_MATRIX = {
     ("Alta",  "Alto"):  "Crítico",

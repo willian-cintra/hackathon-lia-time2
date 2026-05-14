@@ -1,20 +1,3 @@
-# agent/logger.py
-"""
-Configuração central de logging do agente AGETIC.
-
-Como usar em qualquer módulo do projeto:
-    from agent.logger import get_logger
-    logger = get_logger(__name__)
-    logger.info("mensagem")
-
-Níveis disponíveis (do mais ao menos grave):
-    logger.critical(...)   # falha que encerra o processo
-    logger.error(...)      # erro recuperável, operação falhou
-    logger.warning(...)    # algo inesperado mas o fluxo continua
-    logger.info(...)       # progresso normal de execução
-    logger.debug(...)      # detalhes para diagnóstico (silenciado em prod)
-"""
-
 import logging
 import sys
 from agent.config import OUTPUTS_DIR, AGENT_LOG_PATH, AGETIC_DEBUG as _DEBUG
