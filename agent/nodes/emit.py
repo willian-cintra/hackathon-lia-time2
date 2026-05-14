@@ -1,13 +1,16 @@
-# agent/nodes/emit.py
 import csv
 import json
 import os
 import time
 from datetime import datetime
 from agent.state import TicketState
+from agent.config import OUTPUTS_DIR, LOG_JSONL_PATH, RESULTS_CSV_PATH, TICKETS_DIR
+from agent.logger import get_logger
 
-OUTPUT_DIR = "outputs"
-LOG_PATH   = os.path.join(OUTPUT_DIR, "log.jsonl")
+logger = get_logger(__name__)
+
+OUTPUT_DIR = OUTPUTS_DIR
+LOG_PATH   = LOG_JSONL_PATH
 
 CAMPOS_OBRIGATORIOS = {
     "ticket_id", "priority", "category",
@@ -38,7 +41,7 @@ def run(state: TicketState) -> dict:
         )
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    os.makedirs(f"{OUTPUT_DIR}/tickets", exist_ok=True)
+    os.makedirs(TICKETS_DIR, exist_ok=True)
     
     tokens = state.get("tokens_used", 0)
 
@@ -57,14 +60,14 @@ def run(state: TicketState) -> dict:
     }
 
     # ── JSON individual por ticket ────────────────────────────────────────────
-    json_path = os.path.join(OUTPUT_DIR, "tickets", f"{state['ticket_id']}.json")
+    json_path = os.path.join(TICKETS_DIR, f"{state['ticket_id']}.json")
     
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(entry, f, ensure_ascii=False, indent=2)
 
     # ── CSV acumulativo ───────────────────────────────────────────────────────
-    csv_path    = os.path.join(OUTPUT_DIR, "results.csv")
-    file_exists = os.path.isfile(csv_path)
+    csv_path    = RESULTS_CSV_PATH
+    file_exists = csv_path.is_file()
     with open(csv_path, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=entry.keys())
         if not file_exists:
@@ -95,12 +98,13 @@ def run(state: TicketState) -> dict:
     with open(LOG_PATH, "a", encoding="utf-8") as f:
         f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
 
-    print(
-        f"[emit] {state['ticket_id']} "
-        f"| {state['category']:10} "
-        f"| {state['priority']:8} "
-        f"| {state['route_decision']:5} "
-        f"| {tokens:,} tokens "
-        f"| {processing_ms}ms"
+    logger.info(
+        "%s | categoria=%-10s prioridade=%-8s rota=%-5s tokens=%s latencia=%dms",
+        state["ticket_id"],
+        state["category"],
+        state["priority"],
+        state["route_decision"],
+        f"{tokens:,}",
+        processing_ms,
     )
     return {}

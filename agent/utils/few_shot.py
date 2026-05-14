@@ -1,7 +1,7 @@
 import json
-from pathlib import Path
+from agent.config import KNOWLEDGE_BASE_PATH
 
-_KB_PATH = Path("data/knowledge_base.json")
+_KB_PATH = KNOWLEDGE_BASE_PATH
 
 def build_few_shot(service_type: str, n: int = 2) -> str:
     try:
@@ -14,7 +14,7 @@ def build_few_shot(service_type: str, n: int = 2) -> str:
 
     # se não encontrar, usa qualquer exemplo disponível
     if not exemplos:
-        exemplos = kb
+        return ""
 
     resultado = ""
     for e in exemplos[:n]:

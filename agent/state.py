@@ -34,7 +34,10 @@ class TicketState(TypedDict):
     draft_closure:   Optional[str]
 
     # ── Controle de fluxo ─────────────────────────────────────────────────
-    route_decision:  Literal["draft", "queue"]
+    route_decision:  Optional[Literal["draft", "queue"]]
 
     # ── Rastreamento de tokens por ticket ─────────────────────────────────
     tokens_used: int
+
+    # ── Controle de Erros LLM ─────────────────────────────────
+    llm_error:      Optional[str]   

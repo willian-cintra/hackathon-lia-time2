@@ -2,8 +2,12 @@ import json
 from pathlib import Path
 from agent.state import TicketState
 from agent.llm import call_llm
+from agent.logger import get_logger
+from agent.config import SCORE_PRIORITY_PROMPT
 
-PROMPT = Path("prompts/score_priority.md").read_text(encoding="utf-8")
+logger = get_logger(__name__)
+
+PROMPT = SCORE_PRIORITY_PROMPT.read_text(encoding="utf-8")
 
 PRIORITY_MATRIX = {
     ("Alta",  "Alto"):  "Crítico",
@@ -20,8 +24,27 @@ PRIORITY_MATRIX = {
 URGENCIAS_VALIDAS = {"Alta", "Média", "Baixa"}
 IMPACTOS_VALIDOS  = {"Alto", "Médio", "Baixo"}
 
+# ── Fail-safe — valores quando o LLM falha ─────────────────────
+FAILSAFE_URGENCY  = "Alta"
+FAILSAFE_IMPACT   = "Alto"
+FAILSAFE_PRIORITY = "Crítico"
+
+def _failsafe(ticket_id: str, motivo: str, tokens: int) -> dict:
+    logger.error("%s | score_priority fail-safe ativado: %s", ticket_id, motivo)
+    return {
+        "urgency":                FAILSAFE_URGENCY,
+        "impact":                 FAILSAFE_IMPACT,
+        "priority":               FAILSAFE_PRIORITY,
+        "priority_justification": f"Falha no LLM — prioridade máxima aplicada por segurança. Requer revisão humana. Motivo: {motivo}",
+        "llm_error":              f"score_priority: {motivo}",
+        "tokens_used":            tokens,
+    }
+
 
 def run(state: TicketState) -> dict:
+    ticket_id = state["ticket_id"]
+    tokens_base = state.get("tokens_used", 0)
+
     system, user = PROMPT.split("---")
     user = user.format(
         text=state["text"],
@@ -30,46 +53,30 @@ def run(state: TicketState) -> dict:
 
     try:
         resposta, tokens = call_llm(system, user, temperature=0.0)
-    except TimeoutError:
-        raise RuntimeError(
-            f"score_priority: timeout ao chamar o LLM "
-            f"no ticket {state['ticket_id']}"
-        )
+    except Exception as e:
+        return _failsafe(ticket_id, f"falha na chamada ao LLM: {e}", tokens_base)
 
     try:
         data = json.loads(resposta)
     except json.JSONDecodeError as e:
-        raise RuntimeError(
-            f"score_priority: LLM não retornou JSON válido "
-            f"no ticket {state['ticket_id']}. "
-            f"Resposta: {e.doc[:100]}"
-        )
+        return _failsafe(ticket_id, f"JSON inválido: {e.doc[:80]}", tokens_base)
 
     campos_esperados = {"urgency", "impact", "justification"}
     campos_faltando  = campos_esperados - data.keys()
     if campos_faltando:
-        raise RuntimeError(
-            f"score_priority: campos ausentes no ticket "
-            f"{state['ticket_id']}: {campos_faltando}"
-        )
+        return _failsafe(ticket_id, f"campos ausentes: {campos_faltando}", tokens_base)
 
     if data["urgency"] not in URGENCIAS_VALIDAS:
-        raise RuntimeError(
-            f"score_priority: urgência inválida '{data['urgency']}' "
-            f"no ticket {state['ticket_id']}. Esperado: {URGENCIAS_VALIDAS}"
-        )
+        return _failsafe(ticket_id, f"urgência inválida: '{data['urgency']}'", tokens_base)
 
     if data["impact"] not in IMPACTOS_VALIDOS:
-        raise RuntimeError(
-            f"score_priority: impacto inválido '{data['impact']}' "
-            f"no ticket {state['ticket_id']}. Esperado: {IMPACTOS_VALIDOS}"
-        )
+        return _failsafe(ticket_id, f"impacto inválido: '{data['impact']}'", tokens_base)
 
     urgency  = data["urgency"]
     impact   = data["impact"]
     priority = PRIORITY_MATRIX[(urgency, impact)]
 
-    tokens_acumulados = state.get("tokens_used", 0) + tokens
+    tokens_acumulados = tokens_base + tokens
 
     return {
         "urgency":                urgency,
