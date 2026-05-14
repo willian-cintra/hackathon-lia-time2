@@ -4,7 +4,7 @@ import os
 import time
 from datetime import datetime
 from agent.state import TicketState
-from agent.config import OUTPUTS_DIR, LOG_JSONL_PATH, RESULTS_CSV_PATH, TICKETS_DIR
+from agent.config import OUTPUTS_DIR, LOG_JSONL_PATH, RESULTS_CSV_PATH, TICKETS_DIR, DRAFT_TICKETS_DIR, QUEUE_TICKETS_DIR
 from agent.logger import get_logger
 
 logger = get_logger(__name__)
@@ -42,7 +42,9 @@ def run(state: TicketState) -> dict:
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     TICKETS_DIR.mkdir(parents=True, exist_ok=True)
-    
+    DRAFT_TICKETS_DIR.mkdir(parents=True, exist_ok=True)
+    QUEUE_TICKETS_DIR.mkdir(parents=True, exist_ok=True)
+
     tokens = state.get("tokens_used", 0)
 
     entry = {
@@ -60,7 +62,10 @@ def run(state: TicketState) -> dict:
     }
 
     # ── JSON individual por ticket ────────────────────────────────────────────
-    json_path = os.path.join(TICKETS_DIR, f"{state['ticket_id']}.json")
+    if entry["route_decision"]=="draft":
+        json_path = os.path.join(DRAFT_TICKETS_DIR, f"{state['ticket_id']}.json")
+    else:
+        json_path = os.path.join(QUEUE_TICKETS_DIR, f"{state['ticket_id']}.json")
     
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(entry, f, ensure_ascii=False, indent=2)

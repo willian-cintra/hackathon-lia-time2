@@ -2,12 +2,12 @@ import streamlit as st
 import json
 import os
 import glob
-from agent.config import TICKETS_DIR, OUTPUTS_DIR
+from agent.config import DRAFT_TICKETS_DIR, APROOVE_PATH, REJECT_PATH
 
 # Configurações de arquivos
-DIR_PENDING   = str(TICKETS_DIR)
-FILE_APPROVED = str(OUTPUTS_DIR / "approve.json")
-FILE_REJECTED = str(OUTPUTS_DIR / "reject.json")
+DIR_PENDING   = str(DRAFT_TICKETS_DIR)
+FILE_APPROVED = str(APROOVE_PATH)
+FILE_REJECTED = str(REJECT_PATH)
 
 
 def load_json(filepath):

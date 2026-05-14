@@ -24,7 +24,7 @@ with open(TICKETS_PATH, encoding="utf-8") as f:
     tickets = json.load(f)
     
     #Ajuste para realizar 5 testes
-    #tickets = tickets[:5]
+    tickets = tickets[:8]
 
 execution_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 reset_token_totals()
