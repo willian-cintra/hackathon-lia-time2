@@ -22,6 +22,7 @@ RESULTS_CSV_PATH = OUTPUTS_DIR / "results.csv"
 METRICS_PATH     = OUTPUTS_DIR / "metrics.json"
 QUEUE_PATH       = OUTPUTS_DIR / "human_queue.json"
 AGENT_LOG_PATH   = OUTPUTS_DIR / "agent.log"
+TICKETS_DIR      = OUTPUTS_DIR / "tickets"
 
 # ── Variáveis de ambiente ─────────────────────────────────────────────────────
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")

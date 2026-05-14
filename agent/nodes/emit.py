@@ -4,7 +4,7 @@ import os
 import time
 from datetime import datetime
 from agent.state import TicketState
-from agent.config import OUTPUTS_DIR, LOG_JSONL_PATH, RESULTS_CSV_PATH
+from agent.config import OUTPUTS_DIR, LOG_JSONL_PATH, RESULTS_CSV_PATH, TICKETS_DIR
 from agent.logger import get_logger
 
 logger = get_logger(__name__)
@@ -59,7 +59,7 @@ def run(state: TicketState) -> dict:
     }
 
     # ── JSON individual por ticket ────────────────────────────────────────────
-    json_path = OUTPUT_DIR / f"{state['ticket_id']}.json"
+    json_path = TICKETS_DIR / f"{state['ticket_id']}.json"
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(entry, f, ensure_ascii=False, indent=2)
 
