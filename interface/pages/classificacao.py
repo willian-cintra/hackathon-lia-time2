@@ -2,11 +2,13 @@ import streamlit as st
 import json
 import os
 import glob
+from agent.config import TICKETS_DIR, OUTPUTS_DIR
 
 # Configurações de arquivos
-DIR_PENDING = '../outputs/tickets'
-FILE_APPROVED = '../outputs/approve.json'
-FILE_REJECTED = '../outputs/reject.json'
+DIR_PENDING   = str(TICKETS_DIR)
+FILE_APPROVED = str(OUTPUTS_DIR / "approve.json")
+FILE_REJECTED = str(OUTPUTS_DIR / "reject.json")
+
 
 def load_json(filepath):
     if os.path.exists(filepath):
@@ -17,25 +19,21 @@ def load_json(filepath):
                 return []
     return []
 
+
 def save_json(filepath, data):
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
-
 def process_request(action, filepath):
-    # Remove a primeira requisição da lista
     req_data = load_json(filepath)
-    
-    # Define o arquivo de destino
+
     target_file = FILE_APPROVED if action == "approve" else FILE_REJECTED
-    
-    # Carrega dados existentes, adiciona o novo e salva
+
     history = load_json(target_file)
     history.append(req_data)
     save_json(target_file, history)
-    
-    # Atualiza o arquivo de pendentes
+
     try:
         os.remove(filepath)
     except Exception as e:
@@ -43,12 +41,13 @@ def process_request(action, filepath):
         return
     st.success(f"Requisição {'Aprovada' if action == 'approve' else 'Rejeitada'} com sucesso!")
 
+
 # --- Interface Streamlit ---
-PAGE_TITLE="Aprovação da classificação do agente"
-PAGE_ICON="🛠️"
-st.set_page_config(page_title=PAGE_TITLE, page_icon="📊", layout="wide")
+PAGE_TITLE = "Aprovação da classificação do agente"
+PAGE_ICON  = "🛠️"
 
 st.title(PAGE_ICON + PAGE_TITLE)
+
 arquivos_pendentes = sorted(glob.glob(os.path.join(DIR_PENDING, '*.json')))
 
 if not arquivos_pendentes:
@@ -58,30 +57,25 @@ if not arquivos_pendentes:
 else:
     arquivo_atual = arquivos_pendentes[0]
     req_atual = load_json(arquivo_atual)
-    
+
     st.subheader(f"Analisando Requisição (Restantes na fila: {len(arquivos_pendentes)})")
     st.caption(f"Arquivo de origem: `{os.path.basename(arquivo_atual)}`")
-    # Exibição dos dados da requisição
+
     with st.container(border=True):
-        #st.json(req_atual) # Exibe o JSON de forma formatada
-        # Converte o dicionário JSON em uma lista formatada para a tabela
         dados_formatados = [
-            {"Campo": str(chave).capitalize().replace("_", " "), "Informação": str(valor)} 
+            {"Campo": str(chave).capitalize().replace("_", " "), "Informação": str(valor)}
             for chave, valor in req_atual.items()
         ]
-        
-        # Exibe os dados usando uma tabela estática e limpa
         st.table(dados_formatados)
 
     col1, col2 = st.columns(2)
-    
+
     with col1:
         if st.button("✅ Aprovar", use_container_width=True, type="primary"):
             process_request("approve", arquivo_atual)
             st.rerun()
-            
+
     with col2:
         if st.button("❌ Rejeitar", use_container_width=True):
             process_request("reject", arquivo_atual)
             st.rerun()
-

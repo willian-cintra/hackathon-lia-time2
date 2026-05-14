@@ -40,8 +40,8 @@ def run(state: TicketState) -> dict:
             f"no ticket {state['ticket_id']}"
         )
 
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    os.makedirs(TICKETS_DIR, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    TICKETS_DIR.mkdir(parents=True, exist_ok=True)
     
     tokens = state.get("tokens_used", 0)
 
