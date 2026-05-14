@@ -38,7 +38,8 @@ def run(state: TicketState) -> dict:
         )
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-
+    os.makedirs(f"{OUTPUT_DIR}/tickets", exist_ok=True)
+    
     tokens = state.get("tokens_used", 0)
 
     entry = {
@@ -56,7 +57,8 @@ def run(state: TicketState) -> dict:
     }
 
     # ── JSON individual por ticket ────────────────────────────────────────────
-    json_path = os.path.join(OUTPUT_DIR, f"{state['ticket_id']}.json")
+    json_path = os.path.join(OUTPUT_DIR, "tickets", f"{state['ticket_id']}.json")
+    
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(entry, f, ensure_ascii=False, indent=2)
 
