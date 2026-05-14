@@ -10,6 +10,12 @@ st.set_page_config(
     layout="wide"
 )
 
+pagina_atualizartickets = st.Page(
+    page="pages/atualizar.py",
+    title="Atualizar tickets",
+    icon="🔄"
+)
+
 pagina_classificacao = st.Page(
     page="pages/classificacao.py",
     title="Aprovação da classificação do agente",
@@ -31,7 +37,7 @@ pagina_relatoriodistribuicao = st.Page(
 
 menu = st.navigation(
     {
-        "Ações": [pagina_classificacao],
+        "Ações": [pagina_classificacao,pagina_atualizartickets],
         "Dados": [pagina_relatoriocsv,pagina_relatoriodistribuicao]
     }
 )
