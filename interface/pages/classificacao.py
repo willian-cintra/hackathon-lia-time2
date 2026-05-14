@@ -9,6 +9,14 @@ DIR_PENDING   = str(DRAFT_TICKETS_DIR)
 FILE_APPROVED = str(APROOVE_PATH)
 FILE_REJECTED = str(REJECT_PATH)
 
+# ── Cores por prioridade ──────────────────────────────────────────────────────
+COR_PRIORIDADE = {
+    "Crítico": "🔴",
+    "Alto":    "🟠",
+    "Médio":   "🟡",
+    "Baixo":   "🟢",
+}
+
 
 def load_json(filepath):
     if os.path.exists(filepath):
@@ -42,11 +50,8 @@ def process_request(action, filepath):
     st.success(f"Requisição {'Aprovada' if action == 'approve' else 'Rejeitada'} com sucesso!")
 
 
-# --- Interface Streamlit ---
-PAGE_TITLE = "Aprovação da classificação do agente"
-PAGE_ICON  = "🛠️"
-
-st.title(PAGE_ICON + PAGE_TITLE)
+# ── Interface ─────────────────────────────────────────────────────────────────
+st.title("🛠️ Aprovação da classificação do agente")
 
 arquivos_pendentes = sorted(glob.glob(os.path.join(DIR_PENDING, '*.json')))
 
@@ -56,18 +61,72 @@ if not arquivos_pendentes:
         st.rerun()
 else:
     arquivo_atual = arquivos_pendentes[0]
-    req_atual = load_json(arquivo_atual)
+    ticket = load_json(arquivo_atual)
 
-    st.subheader(f"Analisando Requisição (Restantes na fila: {len(arquivos_pendentes)})")
-    st.caption(f"Arquivo de origem: `{os.path.basename(arquivo_atual)}`")
+    # ── Cabeçalho ─────────────────────────────────────────────────────────────
+    col_id, col_fila = st.columns([3, 1])
+    with col_id:
+        st.subheader(f"Ticket: `{ticket.get('ticket_id', '—')}`")
+        st.caption(f"Arquivo: `{os.path.basename(arquivo_atual)}`")
+    with col_fila:
+        st.metric("Na fila", f"{len(arquivos_pendentes)} ticket(s)")
 
-    with st.container(border=True):
-        dados_formatados = [
-            {"Campo": str(chave).capitalize().replace("_", " "), "Informação": str(valor)}
-            for chave, valor in req_atual.items()
-        ]
-        st.table(dados_formatados)
+    st.divider()
 
+    # ── Aviso de fail-safe ────────────────────────────────────────────────────
+    if ticket.get("llm_error"):
+        st.warning(
+            f"⚠️ **Fail-safe ativado** — o LLM falhou durante o processamento. "
+            f"Os valores abaixo são conservadores e requerem revisão humana.\n\n"
+            f"**Motivo:** {ticket['llm_error']}",
+            icon="⚠️",
+        )
+
+    # ── Cards de classificação ────────────────────────────────────────────────
+    c1, c2, c3, c4 = st.columns(4)
+    prioridade = ticket.get("priority", "—")
+    rota       = ticket.get("route_decision", "—")
+    st.markdown("""
+        <style>
+        /* Altera a fonte do título (Label) */
+        [data-testid="stMetricLabel"] {
+            font-size: 15px;
+            
+        }
+
+        /* Altera a fonte do valor (Value) */
+        [data-testid="stMetricValue"] {
+            font-size : 25px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+    c1.metric("Prioridade", f"{COR_PRIORIDADE.get(prioridade, '⚪')} {prioridade}")
+    c2.metric("Categoria",  ticket.get("category",  "—"))
+    c3.metric("Tipo de Serviço", ticket.get("service_type", "—"))
+    c4.metric("Fila",       ticket.get("queue",     "—"))
+
+    
+    st.divider()
+
+    # ── Justificativas ────────────────────────────────────────────────────────
+    with st.expander("💡 Justificativas do agente", expanded=False):
+        st.markdown("**Prioridade:**")
+        st.info(ticket.get("priority_justification", "—"))
+        st.markdown("**Classificação:**")
+        st.info(ticket.get("classification_justification", "—"))
+
+    # ── Rascunho — só quando route_decision = draft ───────────────────────────
+    if rota == "draft" and ticket.get("draft_response"):
+        with st.expander("✉️ Rascunho gerado pelo agente", expanded=True):
+            st.markdown("**Resposta:**")
+            st.success(ticket.get("draft_response", ""))
+            if ticket.get("draft_closure"):
+                st.markdown("**Encerramento:**")
+                st.info(ticket.get("draft_closure", ""))
+
+    st.divider()
+
+    # ── Botões de aprovação ───────────────────────────────────────────────────
     col1, col2 = st.columns(2)
 
     with col1:
