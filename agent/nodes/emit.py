@@ -1,11 +1,47 @@
-import csv, os
+# agent/nodes/emit.py
+import csv
+import json
+import os
+import time
+from datetime import datetime
 from agent.state import TicketState
 
-_batch: list[dict] = []
+OUTPUT_DIR = "outputs"
+LOG_PATH   = os.path.join(OUTPUT_DIR, "log.jsonl")
+
+CAMPOS_OBRIGATORIOS = {
+    "ticket_id", "priority", "category",
+    "service_type", "queue", "route_decision",
+    "priority_justification", "classification_justification",
+}
+
+# ID único da execução — gerado uma vez no import, compartilhado por todos os tickets
+_EXECUTION_ID = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
 def run(state: TicketState) -> dict:
-    _batch.append({
+    inicio = time.time()
+
+    # ── Validações ────────────────────────────────────────────────────────────
+    campos_faltando = CAMPOS_OBRIGATORIOS - state.keys()
+    if campos_faltando:
+        raise RuntimeError(
+            f"emit: campos obrigatórios ausentes no ticket "
+            f"{state.get('ticket_id', 'DESCONHECIDO')}: {campos_faltando}"
+        )
+
+    rotas_validas = {"draft", "queue"}
+    if state.get("route_decision") not in rotas_validas:
+        raise RuntimeError(
+            f"emit: route_decision inválido '{state.get('route_decision')}' "
+            f"no ticket {state['ticket_id']}"
+        )
+
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    tokens = state.get("tokens_used", 0)
+
+    entry = {
         "ticket_id":                    state["ticket_id"],
         "priority":                     state["priority"],
         "category":                     state["category"],
@@ -14,24 +50,55 @@ def run(state: TicketState) -> dict:
         "route_decision":               state["route_decision"],
         "priority_justification":       state["priority_justification"],
         "classification_justification": state["classification_justification"],
+        "draft_response":               state.get("draft_response", ""),
+        "draft_closure":                state.get("draft_closure", ""),
+        "tokens_used":                  tokens,
+    }
+
+    # ── JSON individual por ticket ────────────────────────────────────────────
+    json_path = os.path.join(OUTPUT_DIR, f"{state['ticket_id']}.json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(entry, f, ensure_ascii=False, indent=2)
+
+    # ── CSV acumulativo ───────────────────────────────────────────────────────
+    csv_path    = os.path.join(OUTPUT_DIR, "results.csv")
+    file_exists = os.path.isfile(csv_path)
+    with open(csv_path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=entry.keys())
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(entry)
+
+    # ── Log estruturado JSONL ─────────────────────────────────────────────────
+    processing_ms = round((time.time() - inicio) * 1000)
+
+    log_entry = {
+        "execution_id":                 _EXECUTION_ID,
+        "timestamp":                    datetime.now().isoformat(),
+        "ticket_id":                    state["ticket_id"],
+        "processing_ms":                processing_ms,
+        "tokens_used":                  tokens,
+        "route_decision":               state["route_decision"],
+        "category":                     state["category"],
+        "priority":                     state["priority"],
+        "urgency":                      state.get("urgency", ""),
+        "impact":                       state.get("impact", ""),
+        "service_type":                 state["service_type"],
+        "queue":                        state["queue"],
+        "priority_justification":       state["priority_justification"],
+        "classification_justification": state["classification_justification"],
         "has_draft":                    bool(state.get("draft_response")),
-    })
-    save_csv()
-    save_json()
+    }
+
+    with open(LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
+
+    print(
+        f"[emit] {state['ticket_id']} "
+        f"| {state['category']:10} "
+        f"| {state['priority']:8} "
+        f"| {state['route_decision']:5} "
+        f"| {tokens:,} tokens "
+        f"| {processing_ms}ms"
+    )
     return {}
-
-
-def save_csv(path: str = "outputs/results.csv"):
-    
-    os.makedirs("outputs", exist_ok=True)
-    with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=_batch[0].keys())
-        writer.writeheader()
-        writer.writerows(_batch)
-    print(f"{len(_batch)} chamados salvos em {path}")
-
-def save_json(path: str = "outputs/results.json"):
-    import json
-    os.makedirs("outputs", exist_ok=True)
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(_batch, f, indent=4, ensure_ascii=False)
