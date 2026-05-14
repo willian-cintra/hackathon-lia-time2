@@ -8,6 +8,10 @@ from openai import (
     AuthenticationError, RateLimitError, NotFoundError,
     APIConnectionError, APIStatusError,
 )
+from agent.config import OPENROUTER_API_KEY, LLM_MODEL
+from agent.logger import get_logger
+
+logger = get_logger(__name__)
 
 load_dotenv()
 
@@ -30,15 +34,14 @@ def reset_token_totals():
 
 # ── Instâncias singleton ──────────────────────────────────────────────────────
 def _build_llm(temperature: float = 0.0) -> ChatOpenAI:
-    api_key = os.environ.get("OPENROUTER_API_KEY")
-    if not api_key:
+    if not OPENROUTER_API_KEY:
         raise RuntimeError(
             "llm: OPENROUTER_API_KEY não encontrada. Verifique seu arquivo .env"
         )
     return ChatOpenAI(
         base_url="https://openrouter.ai/api/v1",
-        api_key=api_key,
-        model=os.environ.get("LLM_MODEL", "google/gemma-4-31b-it"),
+        api_key=OPENROUTER_API_KEY,
+        model=LLM_MODEL,
         temperature=temperature,
         timeout=30,
     ).with_retry(stop_after_attempt=3, wait_exponential_jitter=True)
@@ -73,17 +76,23 @@ def call_llm(
     try:
         resposta = llm.invoke(messages)
     except AuthenticationError:
+        logger.error("call_llm | chave de API inválida ou expirada")
         raise RuntimeError("llm: chave de API inválida ou expirada.")
     except RateLimitError:
+        logger.error("call_llm | rate limit atingido")
         raise RuntimeError("llm: limite de uso da API atingido. Aguarde ou verifique créditos.")
     except NotFoundError:
+        logger.error("call_llm | modelo não encontrado: %s", LLM_MODEL)
         raise RuntimeError("llm: modelo não encontrado.")
     except APIConnectionError:
+        logger.error("call_llm | sem conexão com o OpenRouter")
         raise RuntimeError("llm: sem conexão com o OpenRouter.")
     except APIStatusError as e:
+        logger.error("call_llm | erro do servidor status=%s msg=%s", e.status_code, e.message)
         raise RuntimeError(f"llm: erro do servidor (status {e.status_code}): {e.message}")
 
     if not resposta.content or not resposta.content.strip():
+        logger.error("call_llm | modelo retornou resposta vazia")
         raise RuntimeError("llm: o modelo retornou uma resposta vazia.")
 
     # ── Captura de tokens ─────────────────────────────────────────────────────
@@ -100,5 +109,10 @@ def call_llm(
             _token_totals["completion"] += completion_t
             _token_totals["total"]      += total_t
             _token_totals["calls"]      += 1
+
+        logger.debug(
+            "call_llm | tokens prompt=%d completion=%d total=%d",
+            prompt_t, completion_t, total_t,
+        )
 
     return _clean(resposta.content), tokens_usados

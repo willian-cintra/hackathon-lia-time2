@@ -1,4 +1,3 @@
-# run_batch.py
 import asyncio
 import json
 import os
@@ -10,20 +9,25 @@ load_dotenv()
 
 from agent.graph import graph
 from agent.llm import get_token_totals, reset_token_totals
+from agent.logger import get_logger
+from agent.config import (
+    TICKETS_PATH, METRICS_PATH, LOG_JSONL_PATH,
+    AGETIC_BATCH_SIZE, OUTPUTS_DIR,
+)
 
-TICKETS_PATH  = "data/tickets.json"
-METRICS_PATH  = "outputs/metrics.json"
-LOG_PATH      = "outputs/log.jsonl"
-BATCH_SIZE    = 5   # tickets processados simultaneamente
+logger = get_logger(__name__)
+
+BATCH_SIZE = AGETIC_BATCH_SIZE
+LOG_PATH   = LOG_JSONL_PATH
 
 with open(TICKETS_PATH, encoding="utf-8") as f:
     tickets = json.load(f)
+    tickets = tickets[:1]
 
 execution_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 reset_token_totals()
 
-print(f"\nExecução: {execution_id}")
-print(f"Processando {len(tickets)} tickets em lotes de {BATCH_SIZE}...\n")
+logger.info("Execução iniciada | id=%s tickets=%d batch_size=%d", execution_id, len(tickets), BATCH_SIZE)
 
 total         = len(tickets)
 erros         = 0
@@ -56,6 +60,7 @@ async def processar_ticket(ticket: dict) -> dict:
         }
     except Exception as e:
         tempo_ms = round((time.time() - inicio) * 1000)
+        logger.error("Falha no ticket %s: %s", entrada.get("ticket_id", "?"), e)
         return {
             "ok":       False,
             "entrada":  entrada,
@@ -68,11 +73,10 @@ async def processar_todos():
     global erros, acerto_cat, acerto_prio, acerto_rota
     global rota_draft, rota_queue
 
-    # Divide em lotes de BATCH_SIZE
     for i in range(0, total, BATCH_SIZE):
         lote = tickets[i:i + BATCH_SIZE]
         ids  = [t["ticket_id"] for t in lote]
-        print(f"Lote {i//BATCH_SIZE + 1}: {ids}")
+        logger.info("Lote %d/%d: %s", i//BATCH_SIZE + 1, -(-total//BATCH_SIZE), ids)
 
         tarefas   = [processar_ticket(t) for t in lote]
         resultados = await asyncio.gather(*tarefas)
@@ -83,7 +87,7 @@ async def processar_todos():
             if not r["ok"]:
                 erros += 1
                 erros_detalhe.append({"ticket_id": tid, "erro": r["erro"]})
-                print(f"  ✗ {tid}: {r['erro']}")
+                logger.error("  ERRO %s: %s", tid, r["erro"])
                 continue
 
             tempos.append(r["tempo_ms"])
@@ -102,15 +106,16 @@ async def processar_todos():
             if rota == "draft": rota_draft += 1
             if rota == "queue": rota_queue += 1
 
-            status = "✓" if (cat_ok and prio_ok and rota_ok) else "~"
+            status = "OK" if (cat_ok and prio_ok and rota_ok) else "~~ "
             tokens = resultado.get("tokens_used", 0)
-            print(
-                f"  {status} {tid} "
-                f"| {resultado.get('category','?'):10} "
-                f"| {resultado.get('priority','?'):8} "
-                f"| {rota} "
-                f"| {tokens:,} tokens "
-                f"| {r['tempo_ms']}ms"
+            logger.info(
+                "  %s %s | %-10s | %-8s | %s | %s tokens | %dms",
+                status, tid,
+                resultado.get("category", "?"),
+                resultado.get("priority", "?"),
+                rota,
+                f"{tokens:,}",
+                r["tempo_ms"],
             )
 
 
@@ -126,38 +131,34 @@ t_medio  = round(sum(tempos) / len(tempos) / 1000, 1) if tempos else 0
 
 tokens = get_token_totals()
 
-print(f"""
-{'='*60}
-  RELATÓRIO — AGETIC Triagem Inteligente  [{execution_id}]
-{'='*60}
+relatorio = (
+    f"\n{'='*60}\n"
+    f"  RELATÓRIO — AGETIC Triagem Inteligente  [{execution_id}]\n"
+    f"{'='*60}\n\n"
+    f"  Total de tickets:         {total}\n"
+    f"  Processados com sucesso:  {processados}\n"
+    f"  Erros de execução:        {erros}\n\n"
+    f"  Acerto — Categoria:       {acerto_cat}/{processados}  ({pct_cat}%)\n"
+    f"  Acerto — Prioridade:      {acerto_prio}/{processados}  ({pct_prio}%)\n"
+    f"  Acerto — Rota:            {acerto_rota}/{processados}  ({pct_rota}%)\n\n"
+    f"  Tickets → draft:          {rota_draft}\n"
+    f"  Tickets → fila humana:    {rota_queue}\n\n"
+    f"  Tempo médio por ticket:   {t_medio}s\n"
+    f"  Tempo total:              {round(tempo_total/60, 1)} min\n\n"
+    f"  Tokens — prompt:          {tokens['prompt']:,}\n"
+    f"  Tokens — completion:      {tokens['completion']:,}\n"
+    f"  Tokens — total:           {tokens['total']:,}\n"
+    f"  Chamadas ao LLM:          {tokens['calls']:,}\n"
+    f"  Custo médio por ticket:   {round(tokens['total']/processados) if processados else 0:,} tokens\n"
+    f"{'='*60}"
+)
+logger.info(relatorio)
 
-  Total de tickets:         {total}
-  Processados com sucesso:  {processados}
-  Erros de execução:        {erros}
-
-  Acerto — Categoria:       {acerto_cat}/{processados}  ({pct_cat}%)
-  Acerto — Prioridade:      {acerto_prio}/{processados}  ({pct_prio}%)
-  Acerto — Rota:            {acerto_rota}/{processados}  ({pct_rota}%)
-
-  Tickets → draft:          {rota_draft}
-  Tickets → fila humana:    {rota_queue}
-
-  Tempo médio por ticket:   {t_medio}s
-  Tempo total:              {round(tempo_total/60, 1)} min
-
-  Tokens — prompt:          {tokens['prompt']:,}
-  Tokens — completion:      {tokens['completion']:,}
-  Tokens — total:           {tokens['total']:,}
-  Chamadas ao LLM:          {tokens['calls']:,}
-  Custo médio por ticket:   {round(tokens['total']/processados) if processados else 0:,} tokens
-{'='*60}
-""")
-
-os.makedirs("outputs", exist_ok=True)
+OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
 metricas = {
     "execution_id":      execution_id,
-    "dataset":           TICKETS_PATH,
+    "dataset":           str(TICKETS_PATH),
     "total_tickets":     total,
     "processados":       processados,
     "erros":             erros,
@@ -175,12 +176,12 @@ metricas = {
         "chamadas_llm":     tokens["calls"],
         "media_por_ticket": round(tokens["total"] / processados) if processados else 0,
     },
-    "log":           LOG_PATH,
+    "log":           str(LOG_PATH),
     "erros_detalhe": erros_detalhe,
 }
 
 with open(METRICS_PATH, "w", encoding="utf-8") as f:
     json.dump(metricas, f, ensure_ascii=False, indent=2)
 
-print(f"  Métricas salvas em {METRICS_PATH}")
-print(f"  Log estruturado em {LOG_PATH}\n")
+logger.info("Métricas salvas em %s", str(METRICS_PATH))
+logger.info("Log estruturado em %s", str(LOG_PATH))

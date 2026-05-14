@@ -3,8 +3,11 @@ import json
 import os
 from datetime import datetime
 from agent.state import TicketState
+from agent.config import QUEUE_PATH
+from agent.logger import get_logger
 
-QUEUE_PATH = "outputs/human_queue.json"
+logger = get_logger(__name__)
+
 CAMPOS_OBRIGATORIOS = {"ticket_id", "priority", "category"}
 PRIORIDADES_VALIDAS = {"Crítico", "Alto", "Médio", "Baixo"}
 CATEGORIAS_VALIDAS  = {"Requisição", "Incidente", "Problema"}
@@ -29,7 +32,7 @@ def run(state: TicketState) -> dict:
             f"no ticket {state['ticket_id']}"
         )
 
-    os.makedirs("outputs", exist_ok=True)
+    QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     entry = {
         "timestamp":                    datetime.now().isoformat(),
@@ -54,5 +57,5 @@ def run(state: TicketState) -> dict:
     with open(QUEUE_PATH, "w", encoding="utf-8") as f:
         json.dump(fila, f, ensure_ascii=False, indent=2)
 
-    print(f"[queue_only] {state['ticket_id']} → fila humana (total na fila: {len(fila)})")
+    logger.info("%s → fila humana (total na fila: %d)", state["ticket_id"], len(fila))
     return {"route_decision": "queue"}
