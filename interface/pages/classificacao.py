@@ -4,9 +4,9 @@ import os
 import glob
 
 # Configurações de arquivos
-DIR_PENDING = 'outputs/tickets'
-FILE_APPROVED = 'outputs/approve.json'
-FILE_REJECTED = 'outputs/reject.json'
+DIR_PENDING = '../outputs/tickets'
+FILE_APPROVED = '../outputs/approve.json'
+FILE_REJECTED = '../outputs/reject.json'
 
 def load_json(filepath):
     if os.path.exists(filepath):
@@ -44,7 +44,11 @@ def process_request(action, filepath):
     st.success(f"Requisição {'Aprovada' if action == 'approve' else 'Rejeitada'} com sucesso!")
 
 # --- Interface Streamlit ---
-st.title("🛠️ Aprovação da classificação do agente")
+PAGE_TITLE="Aprovação da classificação do agente"
+PAGE_ICON="🛠️"
+st.set_page_config(page_title=PAGE_TITLE, page_icon="📊", layout="wide")
+
+st.title(PAGE_ICON + PAGE_TITLE)
 arquivos_pendentes = sorted(glob.glob(os.path.join(DIR_PENDING, '*.json')))
 
 if not arquivos_pendentes:
@@ -80,5 +84,4 @@ else:
         if st.button("❌ Rejeitar", use_container_width=True):
             process_request("reject", arquivo_atual)
             st.rerun()
-st.sidebar.markdown("---")
-st.sidebar.write(f"**Diretório de entrada:** `{DIR_PENDING}/`")
+
