@@ -14,6 +14,12 @@ st.set_page_config(
 
 pagina_classificacao = st.Page(
     page="pages/classificacao.py",
+    title="Aprovação de rascunho",
+    icon="🛠️"
+)
+
+pagina_classificacaoqueue = st.Page(
+    page="pages/classificacaoqueue.py",
     title="Aprovação da classificação do agente",
     icon="🛠️",
     default=True
@@ -33,7 +39,7 @@ pagina_relatoriodistribuicao = st.Page(
 
 menu = st.navigation(
     {
-        "Ações": [pagina_classificacao],
+        "Ações": [pagina_classificacao,pagina_classificacaoqueue],
         "Dados": [pagina_relatoriocsv,pagina_relatoriodistribuicao]
     }
 )
