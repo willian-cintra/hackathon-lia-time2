@@ -23,8 +23,8 @@ LOG_PATH   = LOG_JSONL_PATH
 with open(TICKETS_PATH, encoding="utf-8") as f:
     tickets = json.load(f)
     
-    #Ajuste para realizar 5 testes
-    tickets = tickets[:2]
+    #Ajuste para realizar 20 testes
+    tickets = tickets[:20]
 
 execution_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 reset_token_totals()
@@ -113,7 +113,7 @@ async def processar_todos():
             if cat_ok:  acerto_cat  += 1
             if prio_ok: acerto_prio += 1
             if rota_ok: acerto_rota += 1
-
+            global chamados_encerrados_no_dia
             rota = resultado.get("route_decision", "")
             if rota == "draft":
                 rota_draft += 1
