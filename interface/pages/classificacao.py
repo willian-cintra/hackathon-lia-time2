@@ -118,11 +118,22 @@ else:
     # ── Rascunho — só quando route_decision = draft ───────────────────────────
     if rota == "draft" and ticket.get("draft_response"):
         with st.expander("✉️ Rascunho gerado pelo agente", expanded=True):
-            st.markdown("**Resposta:**")
-            st.success(ticket.get("draft_response", ""))
-            if ticket.get("draft_closure"):
-                st.markdown("**Encerramento:**")
-                st.info(ticket.get("draft_closure", ""))
+            new_response = st.text_area(
+                label="**Resposta:**", 
+                value=ticket.get("draft_response", ""),
+                height=150,
+                key=f"response_{ticket.get("ticket_id","")}"
+            )
+            ticket["draft_response"] = new_response
+            
+            new_closure = st.text_area(
+                label="**Encerramento:**",
+                value=ticket.get("draft_closure", ""),
+                height=100,
+                key=f"closure_{ticket.get("ticket_id","")}"
+            )
+            # Atualiza o dicionário com o texto editado
+            ticket["draft_closure"] = new_closure
 
     st.divider()
 
@@ -131,10 +142,12 @@ else:
 
     with col1:
         if st.button("✅ Aprovar", use_container_width=True, type="primary"):
+            save_json(arquivo_atual,ticket)
             process_request("approve", arquivo_atual)
             st.rerun()
 
     with col2:
         if st.button("❌ Rejeitar", use_container_width=True):
+            save_json(arquivo_atual,ticket)
             process_request("reject", arquivo_atual)
             st.rerun()
