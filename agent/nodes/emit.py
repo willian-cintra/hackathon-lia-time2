@@ -49,6 +49,11 @@ def run(state: TicketState) -> dict:
 
     entry = {
         "ticket_id":                    state["ticket_id"],
+        "text":                         state.get("text", ""),       
+        "channel":                      state.get("channel", ""),         
+        "requester_profile":            state.get("requester_profile", ""),
+        "urgency":                      state.get("urgency", ""),        
+        "impact":                       state.get("impact", ""),         
         "priority":                     state["priority"],
         "category":                     state["category"],
         "service_type":                 state["service_type"],

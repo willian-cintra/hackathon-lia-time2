@@ -24,7 +24,7 @@ with open(TICKETS_PATH, encoding="utf-8") as f:
     tickets = json.load(f)
     
     #Ajuste para realizar 5 testes
-    tickets = tickets[:8]
+    tickets = tickets[:20]
 
 execution_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 reset_token_totals()
@@ -40,6 +40,16 @@ rota_draft    = 0
 rota_queue    = 0
 tempos        = []
 erros_detalhe = []
+
+# ── Indicadores oficiais AGETIC ───────────────────────────────────────────────
+# Indicador 1: Chamados Diários Encerrados
+# Definição: tickets processados e encerrados automaticamente no mesmo dia
+chamados_encerrados_no_dia = 0
+data_execucao = datetime.now().date()
+
+# Indicador 2: Taxa de Automação
+# Definição: % de tickets resolvidos sem intervenção humana (rota draft)
+# calculado ao final
 
 inicio_total = time.time()
 
@@ -105,7 +115,17 @@ async def processar_todos():
             if rota_ok: acerto_rota += 1
 
             rota = resultado.get("route_decision", "")
-            if rota == "draft": rota_draft += 1
+            if rota == "draft":
+                rota_draft += 1
+                # Indicador 1: ticket resolvido automaticamente hoje = encerrado no dia
+                try:
+                    ticket_date = datetime.fromisoformat(
+                        r["entrada"].get("timestamp", "").replace("Z", "+00:00")
+                    ).date()
+                    if ticket_date == data_execucao:
+                        chamados_encerrados_no_dia += 1
+                except Exception:
+                    chamados_encerrados_no_dia += 1  # se não tem timestamp, conta
             if rota == "queue": rota_queue += 1
 
             status = "OK" if (cat_ok and prio_ok and rota_ok) else "~~ "
@@ -131,6 +151,11 @@ pct_prio = round(acerto_prio / processados * 100, 1) if processados else 0
 pct_rota = round(acerto_rota / processados * 100, 1) if processados else 0
 t_medio  = round(sum(tempos) / len(tempos) / 1000, 1) if tempos else 0
 
+# ── Indicadores oficiais AGETIC ───────────────────────────────────────────────
+pct_encerrados_no_dia = round(chamados_encerrados_no_dia / processados * 100, 1) if processados else 0
+taxa_automacao        = round(rota_draft / processados * 100, 1) if processados else 0
+t_medio_horas         = round(t_medio / 3600, 2) if t_medio else 0
+
 tokens = get_token_totals()
 
 relatorio = (
@@ -151,7 +176,13 @@ relatorio = (
     f"  Tokens — completion:      {tokens['completion']:,}\n"
     f"  Tokens — total:           {tokens['total']:,}\n"
     f"  Chamadas ao LLM:          {tokens['calls']:,}\n"
-    f"  Custo médio por ticket:   {round(tokens['total']/processados) if processados else 0:,} tokens\n"
+    f"  Custo médio por ticket:   {round(tokens['total']/processados) if processados else 0:,} tokens\n\n"
+    f"  {'─'*40}\n"
+    f"  INDICADORES OFICIAIS AGETIC\n"
+    f"  {'─'*40}\n"
+    f"  Chamados Diários Encerrados:  {chamados_encerrados_no_dia}/{processados}  ({pct_encerrados_no_dia}%)\n"
+    f"  Tempo de Atendimento Médio:   {t_medio}s  ({t_medio_horas}h)\n"
+    f"  Taxa de Automação:            {taxa_automacao}%  ({rota_draft} resolvidos pela IA)\n"
     f"{'='*60}"
 )
 logger.info(relatorio)
@@ -177,6 +208,31 @@ metricas = {
         "total":            tokens["total"],
         "chamadas_llm":     tokens["calls"],
         "media_por_ticket": round(tokens["total"] / processados) if processados else 0,
+    },
+    # ── Indicadores Oficiais AGETIC ───────────────────────────────────────────
+    # Fonte: Ficha de Indicadores SECLI/DINTEC/AGETIC
+    "indicadores_agetic": {
+        "chamados_diarios_encerrados": {
+            "descricao":   "Chamados abertos e encerrados no mesmo dia pelo agente",
+            "formula":     "(tickets encerrados pela IA no dia / total processados) * 100",
+            "absoluto":    chamados_encerrados_no_dia,
+            "total":       processados,
+            "percentual":  pct_encerrados_no_dia,
+            "meta_2023":   "98%",
+        },
+        "tempo_atendimento_medio": {
+            "descricao":  "Tempo médio de atendimento por chamado pelo agente",
+            "formula":    "tempo total de atendimento / total de chamados processados",
+            "segundos":   t_medio,
+            "horas":      t_medio_horas,
+            "meta_2023":  "3h (10800s)",
+        },
+        "taxa_automacao": {
+            "descricao":  "Percentual de chamados resolvidos automaticamente sem intervenção humana",
+            "absoluto":   rota_draft,
+            "total":      processados,
+            "percentual": taxa_automacao,
+        },
     },
     "log":           str(LOG_PATH),
     "erros_detalhe": erros_detalhe,
