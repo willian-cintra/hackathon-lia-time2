@@ -58,22 +58,7 @@ arquivos_pendentes = sorted(glob.glob(os.path.join(DIR_PENDING, '*.json')))
 
 if not arquivos_pendentes:
     st.info("Não há requisições pendentes no momento.")
-    if st.button("Atualizar"):
-        st.rerun()
-    if st.button("Rodar LLM"):
-        with st.spinner("Rodando..."):
-            # Executa como se estivesse digitando no terminal: python funcoes/script_atualizacao.py
-            processo = subprocess.run(
-                [sys.executable, "run_batch.py"], 
-                capture_output=True, 
-                text=True
-            )
-            
-            if processo.returncode == 0:
-                st.success("Concluído!")
-            else:
-                st.error("Erro")
-                st.code(processo.stderr) # Mostra o erro do terminal
+    
 else:
     arquivo_atual = arquivos_pendentes[0]
     ticket = load_json(arquivo_atual)
