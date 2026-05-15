@@ -17,16 +17,22 @@ pagina_classificacao = st.Page(
     default=True
 )
 
-pagina_relatorio = st.Page(
-    page="pages/relatorio.py",
+pagina_relatoriocsv = st.Page(
+    page="pages/relatoriocsv.py",
     title="Relatório CSV",
+    icon="📊"
+)
+
+pagina_relatoriodistribuicao = st.Page(
+    page="pages/relatoriodistribuicao.py",
+    title="Relatório de distribuição",
     icon="📊"
 )
 
 menu = st.navigation(
     {
         "Ações": [pagina_classificacao],
-        "Dados": [pagina_relatorio]
+        "Dados": [pagina_relatoriocsv,pagina_relatoriodistribuicao]
     }
 )
 
