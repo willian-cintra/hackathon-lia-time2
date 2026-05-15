@@ -24,7 +24,7 @@ with open(TICKETS_PATH, encoding="utf-8") as f:
     tickets = json.load(f)
     
     #Ajuste para realizar 5 testes
-    tickets = tickets[:20]
+    tickets = tickets[:2]
 
 execution_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 reset_token_totals()
@@ -53,7 +53,6 @@ chamados_encerrados_no_dia = 0
 # calculado ao final
 
 inicio_total = time.time()
-
 
 async def processar_ticket(ticket: dict) -> dict:
     """Processa um único ticket de forma assíncrona."""
