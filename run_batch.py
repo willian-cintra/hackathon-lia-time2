@@ -54,7 +54,6 @@ chamados_encerrados_no_dia = 0
 
 inicio_total = time.time()
 
-
 async def processar_ticket(ticket: dict) -> dict:
     """Processa um único ticket de forma assíncrona."""
     esperado = {k: v for k, v in ticket.items() if k.startswith("_")}
