@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from agent.config import TICKETS_DIR, OUTPUTS_DIR, APROOVE_PATH, REJECT_PATH
+from agent.config import TICKETS_DIR, OUTPUTS_DIR, APROOVE_PATH, REJECT_PATH, KNOWLEDGE_BASE_PATH
 
 # --- FUNÇÕES DE CARREGAMENTO ---
 # Sem @st.cache_data: os dados mudam a cada aprovação, cache causava leitura desatualizada
@@ -136,7 +136,7 @@ if st.button("Mostrar / Ocultar Base de Conhecimento"):
 
 # Se o botão foi ativado, carrega o JSON do caminho especificado e exibe como tabela
 if st.session_state.mostrar_kb:
-    caminho_kb = "/home/emily/Documentos/7_semestre/MDA/processo1/hackathon-lia-time2/data/knowledge_base.json"
+    caminho_kb = KNOWLEDGE_BASE_PATH
     
     if os.path.exists(caminho_kb):
         try:
