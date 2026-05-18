@@ -17,7 +17,9 @@ def load_metrics():
     return None
 
 metrics = load_metrics()
-
+if st.button("🔄 Recarregar métricas"):
+    st.cache_data.clear()
+    st.rerun()
 if metrics:
     # ── KPIs principais ───────────────────────────────────────────────────────
     c1, c2, c3, c4 = st.columns(4)
@@ -81,15 +83,8 @@ if metrics:
 
     # ── Visualização do grafo ─────────────────────────────────────────────────
     st.divider()
-    st.subheader("🔀 Visualização do Grafo LangGraph")
-    if GRAPH_PNG.exists():
-        st.image(str(GRAPH_PNG), caption="Grafo de processamento do agente AGETIC", use_column_width=True)
-    else:
-        st.info("Grafo não gerado. Execute `python save_graph.py` na raiz do projeto.")
-
+   
 else:
     st.warning("Arquivo metrics.json não encontrado. Execute `run_batch.py` para gerar as métricas.")
 
-if st.button("🔄 Recarregar métricas"):
-    st.cache_data.clear()
-    st.rerun()
+
